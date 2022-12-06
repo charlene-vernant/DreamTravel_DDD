@@ -1,8 +1,8 @@
 import java.util.UUID;
 
-public class ID {
+class ID {
     //Value Object
-    String id;
+    private final String id;
 
     ID(){
         this.id = UUID.randomUUID().toString();

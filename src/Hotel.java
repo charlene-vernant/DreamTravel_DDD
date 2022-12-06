@@ -1,13 +1,15 @@
 import java.util.ArrayList;
 
-public class Hotel {
-    ID id;
-    String name;
+class Hotel {
+    private final ID id;
+    private final String hotelName;
+    private final City cityHotel;
     //ArrayList<Room> rooms;
 
-    Hotel(ID id, String name, ArrayList<Room> rooms) {
-        this.id = id;
-        this.name = name;
+    Hotel(ID id, String hotelName,City cityHotel) {
+        this.id = new ID();
+        this.hotelName = hotelName;
+        this.cityHotel=cityHotel;
         //this.rooms = rooms;
     }
 
@@ -15,10 +17,12 @@ public class Hotel {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getHotelName() {
+        return hotelName;
     }
-
+    public City getCityHotel(){
+        return cityHotel;
+    }
     /*
     public ArrayList<Room> getRooms() {
         return rooms;

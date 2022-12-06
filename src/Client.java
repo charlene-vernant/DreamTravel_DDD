@@ -1,9 +1,10 @@
-public class Client {
-    ID id;
-    String name;
+class Client {
+    private final ID id;
+    private final String clientName;
 
-    Client(String name){
+    Client(String clientName){
         this.id = new ID();
-        this.name = name;
+        this.clientName = clientName;
     }
+
 }

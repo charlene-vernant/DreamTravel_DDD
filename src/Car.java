@@ -1,22 +1,18 @@
-public class Car {
+ class Car {
     //Value object
-    ID id;
-    Model model;
-    int price;
+ 
+    private final CarModel model;
+    private final int carPrice;
 
-    Car(Model model, int price){
-        this.id = new ID();
+    Car(CarModel model, int carPrice){
         this.model = model;
-        this.price = price;
+        this.carPrice = carPrice;
     }
 
-    public ID getId(){
-        return  this.id;
-    }
-    public Model getModel(){
+    public CarModel getModel(){
         return  this.model;
     }
-    public int getPrice(){
-        return  this.price;
+    public int getCarPrice(){
+        return  this.carPrice;
     }
 }
