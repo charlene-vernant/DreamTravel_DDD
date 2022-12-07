@@ -1,5 +1,5 @@
 class Room {
-    // a voir si on a besoin
+    // ValueObject
     private final int roomNumber;
     private final int roomPrice;
     Room(int roomNumber, int roomPrice){

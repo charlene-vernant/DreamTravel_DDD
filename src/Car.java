@@ -1,5 +1,5 @@
  class Car {
-    //Value object
+    //Value object or entity ?
  
     private final CarModel model;
     private final int carPrice;

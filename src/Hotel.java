@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 class Hotel {
+    // Entity
     private final ID id;
     private final String hotelName;
     private final City cityHotel;
