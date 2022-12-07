@@ -5,14 +5,16 @@ class Hotel {
     // Entity
     private final ID id;
     private final String hotelName;
-    private final City cityHotel;
-    //ArrayList<Room> rooms;
+    ArrayList<Room> roomList;
 
-    Hotel(ID id, String hotelName,City cityHotel) {
+    Hotel(String hotelName) {
         this.id = new ID();
         this.hotelName = hotelName;
-        this.cityHotel=cityHotel;
-        //this.rooms = rooms;
+        this.roomList = new ArrayList<Room>();
+        // Ajoute automatiquement une liste de 3 Modele de voitures définies
+        roomList.add(new Room("Chambre Pas chère", 10));
+        roomList.add(new Room("Chambre très chère", 100));
+       
     }
 
     public ID getId() {
@@ -22,11 +24,17 @@ class Hotel {
     public String getHotelName() {
         return hotelName;
     }
-    public City getCityHotel(){
-        return cityHotel;
+    
+  
+    public ArrayList<Room> getRoomList() {
+        return roomList;
     }
-    /*
-    public ArrayList<Room> getRooms() {
-        return rooms;
-    }*/
+
+    // Voir comment je peux l'utiliser
+    public void addRoom(){
+        roomList = getRoomList();
+        roomList.add(new Room("Chambre Pas chère", 10));
+        roomList.add(new Room("Chambre très chère", 100));
+
+    }
 }

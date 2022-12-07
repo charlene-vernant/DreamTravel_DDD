@@ -3,7 +3,7 @@ package UI;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
+import domain.*;
 public class UI {
     public UI(){displayHomeUser();}
     
