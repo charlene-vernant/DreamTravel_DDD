@@ -10,17 +10,40 @@ public class Travel {
     private ArrayList<Flight> flightList;
     //private ArrayList<Service> serviceList; 
     // service est une entity qui doit contenir les hotels et les voitures
-    //private float price;
+    private float price;
     private Client client;
 
-    Travel(){
+    Travel(String clientName){
         this.id = new ID();
-        // add le reste 
+        this.flightList = new ArrayList<Flight>();
+        this.price = 0;
+        //this.serviceList = new ArrayList<Service>();
+        this.client = new Client(clientName);
+
     }
 
     public ID getId(){
-        return id;
+        return this.id;
     }
+    public ArrayList<Flight> getFlightList(){
+        return this.flightList;
+    }
+    public float getPrice(){
+        return this.price;
+    }
+    public Client getClient(){
+        return this.client;
+    }
+    /*public ArrayList<Service> getServiceList(){
+        return serviceList;
+    }*/
 
-    //add les autres getters
+    public void addFlight(City departure, City destination,int classe){
+        Flight flight = new Flight(departure,destination,classe);
+        flightList.add(flight);
+    }
+    /*public void addService(){
+        ;
+    }*/
+    
 }

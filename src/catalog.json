@@ -1,42 +1,44 @@
-{"catalog":[
-    {
-        "departure": "Paris",
-        "destination": [
+{
+    "catalog": [
+        {
+          "departure": "Paris",
+          "destination": [
             "Bordeaux",
             "Camberra",
             "Tokyo",
             "Delhi"
-        ]
-    },
-    {
-        "departure": "Bordeaux",
-        "destination": [
+          ]
+        },
+        {
+          "departure": "Bordeaux",
+          "destination": [
             "Paris",
             "Tokyo",
             "Delhi"
-        ]
-    },
-    {
-        "departure": "Camberra",
-        "destination": [
+          ]
+        },
+        {
+          "departure": "Camberra",
+          "destination": [
             "Paris",
             "Tokyo",
             "Delhi"
-        ]
-    },
-    {
-        "departure": "Tokyo",
-        "destination": [
+          ]
+        },
+        {
+          "departure": "Tokyo",
+          "destination": [
             "Bordeaux",
             "Camberra"
-        ]
-    },
-    {
-        "departure": "Delhi",
-        "destination": [
+          ]
+        },
+        {
+          "departure": "Delhi",
+          "destination": [
+            "Paris",
             "Bordeaux",
-            "Camberra",
-            "Paris"
-        ]
+            "Camberra"
+          ]
+        }
+      ]
     }
-]}

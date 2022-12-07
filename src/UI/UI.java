@@ -33,6 +33,7 @@ public class UI {
                 System.exit(0);
                 break;
             case 1: {
+                displayDestinationDeparture();
                 displayCreateTravel();
             }
                 break;
@@ -49,20 +50,21 @@ public class UI {
     public void displayCreateTravel() {
         // Client currentClient = createUser();
         // System.out.println(currentClient);
-
-        System.out.println(">>> 1 : Vol direct");
-        System.out.println(">>> 2 : Vol avec escale");
-        int intChoice = saisieEntier();
-        if (intChoice == 1) {
-            createFlight();
-        } else if (intChoice == 2) {
-            createFlight();
-        } else {
-            System.out.println("[ERREUR] choix invalide");
-            displayCreateTravel();
-        }
+        System.out.println(">>> Commencez par indiquer votre destination : ");
+        String destination = saisieChaine();
+        System.out.println(">>> D'où souhaitez vous partir ? : ");
+        String departure = saisieChaine();
+        displayCatalog(departure,destination);
+        
     }
-
+    public void displayCatalog(String departure,String destination){
+        System.out.println(">>> Voici la liste des vols disponibles");
+        // Fonction de vols
+        System.out.println(">>>> Vol direct :");
+        System.out.println(">>>> Vol avec escale :");
+        System.out.println(">>>> Quel est votre choix ? (0,1,2)");
+        int choice = saisieEntier();
+    }
     /*
      * public Client createUser() {
      * System.out.println(">>> Quel est votre nom ? : ");
@@ -76,6 +78,7 @@ public class UI {
         displayChoiceService();
         int choiceService = saisieEntier();
         if (choiceService == 1) {
+
             int flight = displayCatalog();
             int flightClass = choiceClass();
             finalComand(); // TODO : calculer le prix et enregister le vol et display le recap du vol
@@ -126,34 +129,14 @@ public class UI {
         System.out.println(">>> 2 : Avec service");
     }
 
-    public  int displayCatalog() {
+    public void displayDestinationDeparture() {
         // retourne un int avec le choix du voyage
         // demander 1er ou deuxieme classe;
-        System.out.println("Catalogue des voyages sans escale, Faire un choix int : ");
-        int choiceCatalog = saisieEntier();
-        System.out.println("Vous avez choisi le vol : " + choiceCatalog);
-        JSONParser parser = new JSONParser();
-
-        try {
-            Object obj = parser.parse(new FileReader("catalog.json"));
-            JSONObject jsonObject = (JSONObject) obj;
-            String departure = (String) jsonObject.get("departure");
-            System.out.println("depart : "+ departure);
-            JSONArray destination = (JSONArray) jsonObject.get("destination");
-            Iterator<String> iterator = destination.iterator();
-            while(iterator.hasNext()){
-                System.out.println(iterator.next());
-            } 
-        }catch(FileNotFoundException e){
-            e.printStackTrace();
-        } catch(IOException e){
-            e.printStackTrace();
+        System.out.println("Voici la listes des départs et destinations possibles : ");
+        System.out.println(" Paris ");
+        System.out.println(" Tokyo ");
+        System.out.println(" Chez Mamie Michelle ");
         
-        } catch (org.json.simple.parser.ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return choiceCatalog;
     }
 
     public int displayEscaleCatalog() {
