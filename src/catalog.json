@@ -1,0 +1,42 @@
+[
+    {
+        "departure": "Paris",
+        "destination": [
+            "Bordeaux",
+            "Camberra",
+            "Tokyo",
+            "Delhi"
+        ]
+    },
+    {
+        "departure": "Bordeaux",
+        "destination": [
+            "Paris",
+            "Tokyo",
+            "Delhi"
+        ]
+    },
+    {
+        "departure": "Camberra",
+        "destination": [
+            "Paris",
+            "Tokyo",
+            "Delhi"
+        ]
+    },
+    {
+        "departure": "Tokyo",
+        "destination": [
+            "Bordeaux",
+            "Camberra"
+        ]
+    },
+    {
+        "departure": "Delhi",
+        "destination": [
+            "Bordeaux",
+            "Camberra",
+            "Paris"
+        ]
+    }
+]
