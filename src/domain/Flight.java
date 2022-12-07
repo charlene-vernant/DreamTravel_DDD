@@ -6,9 +6,9 @@ class Flight {
     // ValueObject 
     private final City departure;
     private final City destination;
-    private final String classe;
+    private final int classe;
 
-    Flight(City departure, City destination, String classe) {
+    Flight(City departure, City destination, int classe) {
         this.departure = departure;
         this.destination = destination;
         this.classe = classe;
@@ -21,7 +21,7 @@ class Flight {
     public City getDeparture() {
         return departure;
     }
-    public String getClasse() {
+    public int getClasse() {
         return classe;
     }
 
