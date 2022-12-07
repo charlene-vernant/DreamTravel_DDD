@@ -8,7 +8,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import domain.*;
@@ -60,9 +62,14 @@ public class UI {
     public void displayCatalog(String departure,String destination){
         System.out.println(">>> Voici la liste des vols disponibles");
         // Fonction de vols
+
+        
+
+
+
         System.out.println(">>>> Vol direct :");
         System.out.println(">>>> Vol avec escale :");
-        System.out.println(">>>> Quel est votre choix ? (0,1,2)");
+        System.out.println(">>>> Quel est votre choix ? ");
         int choice = saisieEntier();
     }
     /*
@@ -73,7 +80,27 @@ public class UI {
      * return currentClient;
      * }
      */
+        /* String departure = "Tokyo";
+        String destination = "Delhi";
+        
+        for (int i = 0; i < catalog.size(); i++){
+            JSONObject city = (JSONObject) catalog.get(i);
+            if (city.get("departure").toString().equals(departure)){
+                ArrayList<String> destinations = (ArrayList<String>) city.get("destination");
 
+                for (int e = 0; e < destinations.size(); e++){
+                    //System.out.println(destinations.get(e));
+                    if (destinations.get(e).toString().equals(destination)){
+                        //System.out.println("yay");
+                    }
+                }
+            }
+        }
+        ArrayList<String> stopovers= findStopover(departure, destination);
+        for(int stopover=0; stopover<stopovers.size(); stopover++){
+            System.out.println(stopovers.get(stopover));
+        }
+    } */
     public void createFlight() {
         displayChoiceService();
         int choiceService = saisieEntier();
@@ -130,12 +157,34 @@ public class UI {
     }
 
     public void displayDestinationDeparture() {
-        // retourne un int avec le choix du voyage
-        // demander 1er ou deuxieme classe;
         System.out.println("Voici la listes des départs et destinations possibles : ");
-        System.out.println(" Paris ");
-        System.out.println(" Tokyo ");
-        System.out.println(" Chez Mamie Michelle ");
+        // Liste qui va contenir la liste des villes contenues dans le fichier JSON
+        ArrayList<String> cities = new ArrayList<String>();
+        JSONParser parser = new JSONParser();
+        ArrayList catalog = new ArrayList<>();
+        try {
+            Reader reader = new FileReader("src/catalog.json");
+            Object jsonObj = parser.parse(reader);
+            JSONObject jsonObject = (JSONObject) jsonObj;
+            catalog = (ArrayList) jsonObject.get("catalog");
+            for (int i = 0; i < catalog.size(); i++) {
+                JSONObject city = (JSONObject) catalog.get(i);
+                cities.add((String)city.get("departure"));
+            }
+            
+            @SuppressWarnings("unchecked")
+            Iterator<String> it = cities.iterator();
+            while (it.hasNext()) {
+                System.out.println(">> " + it.next());
+            }
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        } catch(IOException e){
+            e.printStackTrace();
+        
+        } catch (org.json.simple.parser.ParseException e) {
+            e.printStackTrace();
+        }
         
     }
 
@@ -173,5 +222,85 @@ public class UI {
     public void finalComand() {
         System.out.println("le prix de la commande est prix");
     }
+
+    
+        
+
+    public static ArrayList parseCatalog(){
+        JSONParser parser = new JSONParser();
+        ArrayList catalog = new ArrayList<>();
+        try {
+            Reader reader = new FileReader("src/catalog.json");
+            Object jsonObj = parser.parse(reader);
+            JSONObject jsonObject = (JSONObject) jsonObj;
+            catalog = (ArrayList) jsonObject.get("catalog");
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        } catch(IOException e){
+            e.printStackTrace();
+        
+        } catch (org.json.simple.parser.ParseException e) {
+            e.printStackTrace();
+        }
+        return catalog;
+    }
+
+    public static boolean isDirectFlightPossible(String departure, String destination) {
+        boolean isPossible = false;
+        if (departureHasDestination(departure, destination)){
+            isPossible = true;
+        }
+        return isPossible;
+    }
+
+    public static boolean catalogHasDeparture(String departure){
+        boolean hasDeparture = false;
+        ArrayList catalog = parseCatalog();
+        for (int i = 0; i < catalog.size(); i++){
+            JSONObject city = (JSONObject) catalog.get(i);
+            if (city.get("departure").toString().equals(departure)){
+                hasDeparture = true;
+            }
+        }
+        return hasDeparture;
+    }
+
+    public static boolean departureHasDestination(String departure,String destination){
+        boolean hasDestinaton = false;
+        ArrayList catalog = parseCatalog();
+        for (int i = 0; i < catalog.size(); i++){
+            JSONObject city = (JSONObject) catalog.get(i);
+            if (city.get("departure").toString().equals(departure)){
+                ArrayList<String> destinations = (ArrayList<String>) city.get("destination");
+
+                for (int e = 0; e < destinations.size(); e++){
+                    if (destinations.get(e).toString().equals(destination)){
+                        hasDestinaton = true;
+                    }
+                }
+            }
+        }
+        return hasDestinaton;
+    }
+
+    public static ArrayList<String> findStopover(String departure, String destination) {
+        ArrayList<String> stopovers = new ArrayList<String>();
+        ArrayList catalog = parseCatalog();
+        for (int i = 0; i < catalog.size(); i++){
+            JSONObject city = (JSONObject) catalog.get(i);
+            if (city.get("departure").toString().equals(departure)){
+                ArrayList<String> destinations = (ArrayList<String>) city.get("destination");
+                for (int e = 0; e < destinations.size(); e++){
+                    String stopover = destinations.get(e).toString();
+                    if (departureHasDestination(stopover, destination)){
+                        stopovers.add(stopover);
+                    }
+                }
+            }
+        }
+        return stopovers;
+    }
+
+
 
 }
