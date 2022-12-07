@@ -49,6 +49,38 @@ public class UI {
         }
     }
 
+    public void displayDestinationDeparture() {
+        System.out.println("Voici la listes des départs et destinations possibles : ");
+        // Liste qui va contenir la liste des villes contenues dans le fichier JSON
+        ArrayList<String> cities = new ArrayList<String>();
+        JSONParser parser = new JSONParser();
+        ArrayList catalog = new ArrayList<>();
+        try {
+            Reader reader = new FileReader("src/catalog.json");
+            Object jsonObj = parser.parse(reader);
+            JSONObject jsonObject = (JSONObject) jsonObj;
+            catalog = (ArrayList) jsonObject.get("catalog");
+            for (int i = 0; i < catalog.size(); i++) {
+                JSONObject city = (JSONObject) catalog.get(i);
+                cities.add((String)city.get("departure"));
+            }
+            
+            @SuppressWarnings("unchecked")
+            Iterator<String> it = cities.iterator();
+            while (it.hasNext()) {
+                System.out.println(">> " + it.next());
+            }
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        } catch(IOException e){
+            e.printStackTrace();
+        
+        } catch (org.json.simple.parser.ParseException e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
     public void displayCreateTravel() {
         // Client currentClient = createUser();
         // System.out.println(currentClient);
@@ -156,37 +188,7 @@ public class UI {
         System.out.println(">>> 2 : Avec service");
     }
 
-    public void displayDestinationDeparture() {
-        System.out.println("Voici la listes des départs et destinations possibles : ");
-        // Liste qui va contenir la liste des villes contenues dans le fichier JSON
-        ArrayList<String> cities = new ArrayList<String>();
-        JSONParser parser = new JSONParser();
-        ArrayList catalog = new ArrayList<>();
-        try {
-            Reader reader = new FileReader("src/catalog.json");
-            Object jsonObj = parser.parse(reader);
-            JSONObject jsonObject = (JSONObject) jsonObj;
-            catalog = (ArrayList) jsonObject.get("catalog");
-            for (int i = 0; i < catalog.size(); i++) {
-                JSONObject city = (JSONObject) catalog.get(i);
-                cities.add((String)city.get("departure"));
-            }
-            
-            @SuppressWarnings("unchecked")
-            Iterator<String> it = cities.iterator();
-            while (it.hasNext()) {
-                System.out.println(">> " + it.next());
-            }
-        }catch(FileNotFoundException e){
-            e.printStackTrace();
-        } catch(IOException e){
-            e.printStackTrace();
-        
-        } catch (org.json.simple.parser.ParseException e) {
-            e.printStackTrace();
-        }
-        
-    }
+    
 
     public int displayEscaleCatalog() {
         // retourne un int avec le choix des escales en fonction de ce qui est renté en
