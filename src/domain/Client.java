@@ -3,7 +3,7 @@ package domain;
 import java.util.Objects;
 
 class Client {
-    // ValueObject : pas de setter
+    // ValueObject 
     private final String clientName;
 
     Client(String clientName){

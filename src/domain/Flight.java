@@ -6,10 +6,12 @@ class Flight {
     // ValueObject 
     private final City departure;
     private final City destination;
+    private final String classe;
 
-    Flight(City departure, City destination) {
+    Flight(City departure, City destination, String classe) {
         this.departure = departure;
         this.destination = destination;
+        this.classe = classe;
     }
 
     public City getDestination() {
@@ -19,6 +21,9 @@ class Flight {
     public City getDeparture() {
         return departure;
     }
+    public String getClasse() {
+        return classe;
+    }
 
     @Override
     public boolean equals(Object other) {
@@ -26,11 +31,12 @@ class Flight {
         Flight otherFlight = (Flight) other;
         boolean sameDeparture = this.departure == otherFlight.getDeparture();
         boolean sameDestination = this.destination == otherFlight.getDestination();
-        return sameDeparture && sameDestination ;
+        boolean sameClasse = this.classe == otherFlight.getClasse();
+        return sameDeparture && sameDestination && sameClasse ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(destination,departure);
+        return Objects.hash(destination,departure, classe);
     }
 }
