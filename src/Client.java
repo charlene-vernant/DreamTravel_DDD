@@ -7,4 +7,10 @@ class Client {
         this.clientName = clientName;
     }
 
+    public String getClientName() {
+        return clientName;
+    }
+    public ID getId() {
+        return id;
+    }
 }
