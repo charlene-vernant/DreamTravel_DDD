@@ -2,7 +2,7 @@ package domain;
 import java.util.Objects;
 import java.util.UUID;
 
-class ID {
+public class ID {
     //Value Object
     private final String id;
 

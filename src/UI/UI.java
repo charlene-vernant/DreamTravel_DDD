@@ -1,40 +1,54 @@
 package UI;
 
+import org.json.simple.*;
+import org.json.simple.parser.JSONParser;
+
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.util.Iterator;
+
 import domain.*;
+
 public class UI {
-    public UI(){displayHomeUser();}
-    
-    public  void displayTravelByID(int ID){
+    public UI() {
+        displayHomeUser();
+    }
+
+    public void displayTravelByID(int ID) {
         System.out.println("Votre voyage : ....."); // TODO0
 
     }
 
-    public  void displayHomeUser() {
+    public void displayHomeUser() {
         System.out.println(">>> 1 : Créer un nouveau voyage");
         System.out.println(">>> 2 : Afficher un voyage à partir de l'ID de commande");
         System.out.println(">>> 0 : Quitter l'application");
         int choice = saisieEntier();
-        switch(choice){
-                case 0:
-                    System.exit(0);
-                    break;
-                case 1: {displayCreateTravel();
-                }
-                    break; 
-                case 2:{displayTravelByID(1);}
-                    break;
-                default:
-                    System.out.println(">>> [ERREUR] choix invalide");
-    
+        switch (choice) {
+            case 0:
+                System.exit(0);
+                break;
+            case 1: {
+                displayCreateTravel();
             }
+                break;
+            case 2: {
+                displayTravelByID(1);
+            }
+                break;
+            default:
+                System.out.println(">>> [ERREUR] choix invalide");
+
+        }
     }
 
-    public  void displayCreateTravel() {
-        //Client currentClient = createUser();
-        //System.out.println(currentClient);
+    public void displayCreateTravel() {
+        // Client currentClient = createUser();
+        // System.out.println(currentClient);
 
         System.out.println(">>> 1 : Vol direct");
         System.out.println(">>> 2 : Vol avec escale");
@@ -49,14 +63,16 @@ public class UI {
         }
     }
 
-    /*public Client createUser() {
-        System.out.println(">>> Quel est votre nom ? : ");
-        String currentName = saisieChaine();
-        Client currentClient = new Client(currentName);
-        return currentClient;
-    }*/
+    /*
+     * public Client createUser() {
+     * System.out.println(">>> Quel est votre nom ? : ");
+     * String currentName = saisieChaine();
+     * Client currentClient = new Client(currentName);
+     * return currentClient;
+     * }
+     */
 
-    public  void createFlight() {
+    public void createFlight() {
         displayChoiceService();
         int choiceService = saisieEntier();
         if (choiceService == 1) {
@@ -79,15 +95,15 @@ public class UI {
         ;
     }
 
-    public  int choiceHotel() {
+    public int choiceHotel() {
         return 0;
     }
 
-    public  int choiceCar() {
+    public int choiceCar() {
         return 0;
     }
 
-    public  int choiceClass() {
+    public int choiceClass() {
         System.out.println(">>> 1 : Première classe");
         System.out.println(">>> 2 : Classe éco");
         int flag = 0;
@@ -105,7 +121,7 @@ public class UI {
         return flag;
     }
 
-    public  void displayChoiceService() {
+    public void displayChoiceService() {
         System.out.println(">>> 1 : Sans service");
         System.out.println(">>> 2 : Avec service");
     }
@@ -116,10 +132,31 @@ public class UI {
         System.out.println("Catalogue des voyages sans escale, Faire un choix int : ");
         int choiceCatalog = saisieEntier();
         System.out.println("Vous avez choisi le vol : " + choiceCatalog);
+        JSONParser parser = new JSONParser();
+
+        try {
+            Object obj = parser.parse(new FileReader("catalog.json"));
+            JSONObject jsonObject = (JSONObject) obj;
+            String departure = (String) jsonObject.get("departure");
+            System.out.println("depart : "+ departure);
+            JSONArray destination = (JSONArray) jsonObject.get("destination");
+            Iterator<String> iterator = destination.iterator();
+            while(iterator.hasNext()){
+                System.out.println(iterator.next());
+            } 
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        } catch(IOException e){
+            e.printStackTrace();
+        
+        } catch (org.json.simple.parser.ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return choiceCatalog;
     }
 
-    public  int displayEscaleCatalog() {
+    public int displayEscaleCatalog() {
         // retourne un int avec le choix des escales en fonction de ce qui est renté en
         // parametre
         System.out.println("Catalogue des voyages avec escale, Faire un choix int : ");
@@ -128,7 +165,7 @@ public class UI {
         return choiceCatalog;
     }
 
-    public  int saisieEntier() {
+    public int saisieEntier() {
         try {
             BufferedReader buff = new BufferedReader(new InputStreamReader(System.in));
             String chaine = buff.readLine();
@@ -139,7 +176,7 @@ public class UI {
         }
     }
 
-    public  String saisieChaine() {
+    public String saisieChaine() {
         try {
             BufferedReader buff = new BufferedReader(new InputStreamReader(System.in));
             String chaine = buff.readLine();
@@ -150,7 +187,8 @@ public class UI {
         }
     }
 
-    public  void finalComand() {
+    public void finalComand() {
         System.out.println("le prix de la commande est prix");
     }
+
 }
