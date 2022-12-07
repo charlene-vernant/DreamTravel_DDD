@@ -1,4 +1,6 @@
- class Car {
+package domain;
+
+class Car {
     //Value object or entity ?
  
     private final CarModel model;

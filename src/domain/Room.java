@@ -1,3 +1,4 @@
+package domain;
 class Room {
     // ValueObject
     private final int roomNumber;
