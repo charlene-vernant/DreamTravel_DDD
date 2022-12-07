@@ -13,7 +13,7 @@ public class Travel {
     private float price;
     private Client client;
 
-    Travel(String clientName){
+    public Travel(String clientName){
         this.id = new ID();
         this.flightList = new ArrayList<Flight>();
         this.price = 0;
@@ -45,5 +45,13 @@ public class Travel {
     /*public void addService(){
         ;
     }*/
+    @Override
+    public String toString(){
+        System.out.println("oue");
     
+        String chain = "id : " +this.id + " vols : "+flightList+" client : "+client+" prix: "+price; //voir pk ça beug
+        System.out.println(chain);
+        return chain;
+    }
+   
 }

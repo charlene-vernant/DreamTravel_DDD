@@ -1,42 +1,32 @@
 package domain;
 
-import java.util.Objects;
-
-class Flight {
-    // ValueObject 
+public class Flight {
+    // ValueObject
     private final City departure;
     private final City destination;
     private final int classe;
 
+    // private final String reference;
     Flight(City departure, City destination, int classe) {
         this.departure = departure;
         this.destination = destination;
         this.classe = classe;
     }
 
-    public City getDestination() {
-        return destination;
+    public int getClasse() {
+        return classe;
     }
 
     public City getDeparture() {
         return departure;
     }
-    public int getClasse() {
-        return classe;
+
+    public City getDestination() {
+        return destination;
     }
 
-    @Override
-    public boolean equals(Object other) {
-        if (! (other instanceof Flight)) return false;
-        Flight otherFlight = (Flight) other;
-        boolean sameDeparture = this.departure == otherFlight.getDeparture();
-        boolean sameDestination = this.destination == otherFlight.getDestination();
-        boolean sameClasse = this.classe == otherFlight.getClasse();
-        return sameDeparture && sameDestination && sameClasse ;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(destination,departure, classe);
+    public String toString() {
+        String chain = "";
+        return chain = "Départ : " + departure + "--Destination : " + destination +"classe : "+classe;
     }
 }

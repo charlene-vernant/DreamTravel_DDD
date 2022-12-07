@@ -22,7 +22,11 @@ class Client {
         boolean sameName = this.clientName == otherClient.getClientName();
         return sameName;
     }
-
+    @Override
+    public String toString(){
+        String chain="";
+        return chain+=""+clientName;
+    }
     @Override
     public int hashCode() {
         return Objects.hash(clientName);

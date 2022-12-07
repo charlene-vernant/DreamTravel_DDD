@@ -1,6 +1,8 @@
 package domain;
+
 import java.util.Objects;
-class City {
+
+public class City {
     // Value object
     private final String cityName;
 
@@ -11,12 +13,19 @@ class City {
     public String getName() {
         return cityName;
     }
+
     @Override
     public boolean equals(Object other) {
-        if (! (other instanceof City)) return false;
+        if (!(other instanceof City))
+            return false;
         City otherCity = (City) other;
         boolean sameName = this.cityName == otherCity.getName();
         return sameName;
+    }
+   
+    public String toString() {
+        String chain = "" + cityName;
+        return chain;
     }
 
     @Override

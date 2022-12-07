@@ -2,7 +2,6 @@ package UI;
 
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,6 +15,9 @@ import java.util.Iterator;
 import domain.*;
 
 public class UI {
+    Catalog catalog = new Catalog();
+    Travel travel;
+
     public UI() {
         displayHomeUser();
     }
@@ -35,8 +37,11 @@ public class UI {
                 System.exit(0);
                 break;
             case 1: {
-                displayDestinationDeparture();
-                displayCreateTravel();
+                String name = menuNewClient();
+                travel = new Travel(name);
+                displayDestinationDeparture(); // affiche la liste des destination/depart
+                displayCreateTravel(); // va afficher la liste des vols
+                displayTravel();
             }
                 break;
             case 2: {
@@ -49,112 +54,53 @@ public class UI {
         }
     }
 
+    public String menuNewClient() {
+        System.out.println("Veuillez entrez votre nom : ");
+        String currentName = saisieChaine();
+        System.out.println("Parfait " + currentName + " maintenant tu vas choisir un vol batar");
+        return currentName;
+    }
+
     public void displayDestinationDeparture() {
         System.out.println("Voici la listes des départs et destinations possibles : ");
-        // Liste qui va contenir la liste des villes contenues dans le fichier JSON
-        ArrayList<String> cities = new ArrayList<String>();
-        JSONParser parser = new JSONParser();
-        ArrayList catalog = new ArrayList<>();
-        try {
-            Reader reader = new FileReader("src/catalog.json");
-            Object jsonObj = parser.parse(reader);
-            JSONObject jsonObject = (JSONObject) jsonObj;
-            catalog = (ArrayList) jsonObject.get("catalog");
-            for (int i = 0; i < catalog.size(); i++) {
-                JSONObject city = (JSONObject) catalog.get(i);
-                cities.add((String)city.get("departure"));
-            }
-            
-            @SuppressWarnings("unchecked")
-            Iterator<String> it = cities.iterator();
-            while (it.hasNext()) {
-                System.out.println(">> " + it.next());
-            }
-        }catch(FileNotFoundException e){
-            e.printStackTrace();
-        } catch(IOException e){
-            e.printStackTrace();
-        
-        } catch (org.json.simple.parser.ParseException e) {
-            e.printStackTrace();
-        }
-        
+        catalog.addCity();
+        catalog.displayCity();
+
     }
-    
+
     public void displayCreateTravel() {
-        // Client currentClient = createUser();
-        // System.out.println(currentClient);
         System.out.println(">>> Commencez par indiquer votre destination : ");
-        String destination = saisieChaine();
+        int choiceDestination = saisieEntier();
+        City destination = catalog.getDepartureDestination().get(choiceDestination);
         System.out.println(">>> D'où souhaitez vous partir ? : ");
-        String departure = saisieChaine();
-        displayCatalog(departure,destination);
-        
+        int choiceDeparture = saisieEntier();
+        City departure = catalog.getDepartureDestination().get(choiceDeparture);
+        displayCatalog(departure, destination);
+
     }
-    public void displayCatalog(String departure,String destination){
+
+    public void displayCatalog(City departure, City destination) {
+        // Listes de vols
         System.out.println(">>> Voici la liste des vols disponibles");
-        // Fonction de vols
-
-        
-
-
-
-        System.out.println(">>>> Vol direct :");
-        System.out.println(">>>> Vol avec escale :");
+        catalog.researchTicket(departure, destination);
+        catalog.displayTicketCatalog();
         System.out.println(">>>> Quel est votre choix ? ");
-        int choice = saisieEntier();
+        int choiceTicket = saisieEntier();
+        int classe = choiceClass();
+        // creer nouveau vol
+        Ticket ticket = catalog.getCatalogTicket().get(choiceTicket);
+        createFlight(ticket, classe);
     }
-    /*
-     * public Client createUser() {
-     * System.out.println(">>> Quel est votre nom ? : ");
-     * String currentName = saisieChaine();
-     * Client currentClient = new Client(currentName);
-     * return currentClient;
-     * }
-     */
-        /* String departure = "Tokyo";
-        String destination = "Delhi";
-        
-        for (int i = 0; i < catalog.size(); i++){
-            JSONObject city = (JSONObject) catalog.get(i);
-            if (city.get("departure").toString().equals(departure)){
-                ArrayList<String> destinations = (ArrayList<String>) city.get("destination");
 
-                for (int e = 0; e < destinations.size(); e++){
-                    //System.out.println(destinations.get(e));
-                    if (destinations.get(e).toString().equals(destination)){
-                        //System.out.println("yay");
-                    }
-                }
-            }
-        }
-        ArrayList<String> stopovers= findStopover(departure, destination);
-        for(int stopover=0; stopover<stopovers.size(); stopover++){
-            System.out.println(stopovers.get(stopover));
-        }
-    } */
-    public void createFlight() {
-        displayChoiceService();
-        int choiceService = saisieEntier();
-        if (choiceService == 1) {
-
-            int flight = displayCatalog();
-            int flightClass = choiceClass();
-            finalComand(); // TODO : calculer le prix et enregister le vol et display le recap du vol
-
-        } else if (choiceService == 2) {
-            int flight = displayCatalog();
-            int choiceCar = choiceCar();
-            int choiceHotel = choiceHotel();
-            // int flight2 = displayEscaleCatalog(); // rentrer un parametre pour afficher
-            // le bon catalogue
-            // TODO faire la suite
+    public void createFlight(Ticket ticket, int classe) {
+        if (ticket.getTransit() != null) {
+            System.out.println("vol multiple");
+            travel.addFlight(ticket.getDeparture(), ticket.getTransit(), classe);
+            travel.addFlight(ticket.getTransit(), ticket.getDestination(), classe);
         } else {
-            System.out.println("[ERREUR] choix invalide");
-            createFlight();
-            ;
+            System.out.println("vol direct");
+            travel.addFlight(ticket.getDeparture(), ticket.getDestination(), classe);
         }
-        ;
     }
 
     public int choiceHotel() {
@@ -183,20 +129,14 @@ public class UI {
         return flag;
     }
 
+    public void displayTravel() {
+        System.out.println("fdp");
+        travel.toString();
+    }
+
     public void displayChoiceService() {
         System.out.println(">>> 1 : Sans service");
         System.out.println(">>> 2 : Avec service");
-    }
-
-    
-
-    public int displayEscaleCatalog() {
-        // retourne un int avec le choix des escales en fonction de ce qui est renté en
-        // parametre
-        System.out.println("Catalogue des voyages avec escale, Faire un choix int : ");
-        int choiceCatalog = saisieEntier();
-        System.out.println("Vous avez choisi le vol : " + choiceCatalog);
-        return choiceCatalog;
     }
 
     public int saisieEntier() {
@@ -220,89 +160,4 @@ public class UI {
             return null;
         }
     }
-
-    public void finalComand() {
-        System.out.println("le prix de la commande est prix");
-    }
-
-    
-        
-
-    public static ArrayList parseCatalog(){
-        JSONParser parser = new JSONParser();
-        ArrayList catalog = new ArrayList<>();
-        try {
-            Reader reader = new FileReader("src/catalog.json");
-            Object jsonObj = parser.parse(reader);
-            JSONObject jsonObject = (JSONObject) jsonObj;
-            catalog = (ArrayList) jsonObject.get("catalog");
-        }catch(FileNotFoundException e){
-            e.printStackTrace();
-        } catch(IOException e){
-            e.printStackTrace();
-        
-        } catch (org.json.simple.parser.ParseException e) {
-            e.printStackTrace();
-        }
-        return catalog;
-    }
-
-    public static boolean isDirectFlightPossible(String departure, String destination) {
-        boolean isPossible = false;
-        if (departureHasDestination(departure, destination)){
-            isPossible = true;
-        }
-        return isPossible;
-    }
-
-    public static boolean catalogHasDeparture(String departure){
-        boolean hasDeparture = false;
-        ArrayList catalog = parseCatalog();
-        for (int i = 0; i < catalog.size(); i++){
-            JSONObject city = (JSONObject) catalog.get(i);
-            if (city.get("departure").toString().equals(departure)){
-                hasDeparture = true;
-            }
-        }
-        return hasDeparture;
-    }
-
-    public static boolean departureHasDestination(String departure,String destination){
-        boolean hasDestinaton = false;
-        ArrayList catalog = parseCatalog();
-        for (int i = 0; i < catalog.size(); i++){
-            JSONObject city = (JSONObject) catalog.get(i);
-            if (city.get("departure").toString().equals(departure)){
-                ArrayList<String> destinations = (ArrayList<String>) city.get("destination");
-
-                for (int e = 0; e < destinations.size(); e++){
-                    if (destinations.get(e).toString().equals(destination)){
-                        hasDestinaton = true;
-                    }
-                }
-            }
-        }
-        return hasDestinaton;
-    }
-
-    public static ArrayList<String> findStopover(String departure, String destination) {
-        ArrayList<String> stopovers = new ArrayList<String>();
-        ArrayList catalog = parseCatalog();
-        for (int i = 0; i < catalog.size(); i++){
-            JSONObject city = (JSONObject) catalog.get(i);
-            if (city.get("departure").toString().equals(departure)){
-                ArrayList<String> destinations = (ArrayList<String>) city.get("destination");
-                for (int e = 0; e < destinations.size(); e++){
-                    String stopover = destinations.get(e).toString();
-                    if (departureHasDestination(stopover, destination)){
-                        stopovers.add(stopover);
-                    }
-                }
-            }
-        }
-        return stopovers;
-    }
-
-
-
 }

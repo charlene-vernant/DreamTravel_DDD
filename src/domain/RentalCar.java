@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 class RentalCar {
     // Entity
-    private ID id;
-    private String nameRentalCar;
-    private ArrayList<CarModel> carList;
+    private final  ID id;
+    private final  String nameRentalCar;
+    private final ArrayList<CarModel> carList;
 
     RentalCar(String nameRentalCar) {
         this.id = new ID();
