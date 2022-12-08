@@ -17,12 +17,6 @@ public class UI {
         displayHomeUser();
     }
 
-    //BUG
-    public void displayTravelByID(TravelRepository travel, String id) {
-        ID newID = new ID(id);
-        System.out.println("Votre voyage : ");
-        travel.findTravelById(newID);
-    }
 
     public void displayHomeUser() {
         while (true) {
@@ -56,6 +50,11 @@ public class UI {
 
             }
         }
+    }
+    //BUG
+    public void displayTravelByID(TravelRepository travel, String id) {
+        System.out.println("Votre voyage : ");
+        travel.findTravelById(id);
     }
 
     public void AddTravelToRepository(TravelRepository repository, Travel travel) {
@@ -108,11 +107,11 @@ public class UI {
     public void createFlight(Ticket ticket, int classe) {
         if (ticket.getTransit() != null) {
             System.out.println("vol multiple");
-            travel.addFlight(ticket.getDeparture(), ticket.getTransit(), classe);
-            travel.addFlight(ticket.getTransit(), ticket.getDestination(), classe);
+            travel.addFlight(ticket.getDeparture(), ticket.getTransit(), classe,ticket.getPrice());
+            travel.addFlight(ticket.getTransit(), ticket.getDestination(), classe,ticket.getPrice());
         } else {
             System.out.println("vol direct");
-            travel.addFlight(ticket.getDeparture(), ticket.getDestination(), classe);
+            travel.addFlight(ticket.getDeparture(), ticket.getDestination(), classe,ticket.getPrice());
         }
     }
 

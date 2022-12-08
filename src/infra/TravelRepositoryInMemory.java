@@ -23,11 +23,10 @@ public class TravelRepositoryInMemory implements TravelRepository {
     }
 
     @Override
-    public Travel findTravelById(ID id) {
+    public Travel findTravelById(String id) {
         for (Travel travel : this.memory){
-            System.out.println(travel.getId());
-            if(travel.getId()==(id)){
-                System.out.println("Found"); //
+            ID tmp = travel.getId();
+            if(tmp.toString().equals(id)){
                 System.out.println(travel);
                 return travel;
             }
