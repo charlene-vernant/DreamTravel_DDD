@@ -38,4 +38,13 @@ class RentalCar {
         carList.add(new CarModel("4x4 Tout-terrain", priceInitial*=0.6));
 
     }
+
+    @Override
+    public boolean equals(Object o) {
+    if (o != null
+    && o.getClass() == this.getClass()
+    && this.getID() == ((Hotel) o).getId())
+    return true;
+    return false;
+    }
 }

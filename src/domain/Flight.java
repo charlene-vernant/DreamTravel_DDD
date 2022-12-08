@@ -33,7 +33,17 @@ public class Flight {
     public City getDestination() {
         return destination;
     }
-
+    @Override
+    public boolean equals(Object obj){
+            if (obj != null
+            && this.getClass()==obj.getClass()
+            && this.getPrice()==(( (Flight) obj).getPrice())
+            && this.getDeparture().equals(((Flight) obj).getDeparture())
+            && this.getClasse()==(((Flight) obj).getClasse())
+            && this.getDestination().equals(((Flight) obj).getDestination())) return true;
+            return false;
+        }
+    @Override   
     public String toString() {
         String chain = "";
         chain += "Départ : " + departure + "--Destination : " + destination + "classe : " + classe;

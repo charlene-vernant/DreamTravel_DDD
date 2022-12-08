@@ -40,14 +40,15 @@ public class Ticket {
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (!(other instanceof Ticket))
+    public boolean equals(Object obj){
+            if (obj != null
+            && this.getClass()==obj.getClass()
+            && this.getPrice()==(( (Ticket) obj).getPrice())
+            && this.getDeparture().equals(((Ticket) obj).getDeparture())
+            && this.getTransit().equals(((Ticket) obj).getTransit())
+            && this.getDestination().equals(((Ticket) obj).getDestination())) return true;
             return false;
-        Ticket otherTicket = (Ticket) other;
-        boolean sameDeparture = this.departure == otherTicket.getDeparture();
-        boolean sameDestination = this.destination == otherTicket.getDestination();
-        return sameDeparture && sameDestination;
-    }
+        }
 
     public String toString() {
         String chain = "";

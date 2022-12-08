@@ -31,7 +31,7 @@ public class TravelRepositoryInMemory implements TravelRepository {
                 return travel;
             }
         }
-        System.out.println("Pas trouvé"); // a mettre propre
+        System.out.println("Erreur : mauvais identifiant ou inexistant"); 
         return null;
     }
    

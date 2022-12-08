@@ -46,7 +46,7 @@ public class Travel {
   
     @Override
     public String toString(){
-        String chain = "id : " +this.id + " vols : "+flightList+" client : "+client+" prix: "+price; //voir pk ça beug
+        String chain = "id : " +this.id + " vols : "+this.flightList+" client : "+this.client+" prix : "+this.price; //voir pk ça beug
         return chain;
     }
    

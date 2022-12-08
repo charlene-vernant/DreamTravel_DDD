@@ -18,12 +18,14 @@ public class Catalog {
     private  ArrayList<City> departureDestination ;
     private  ArrayList<Hotel> catalogHotel ;
     private  ArrayList<RentalCar> catalogCar ;
+    private  ArrayList<Integer> poolTicket ;
     public Catalog() {
         this.id = new ID();
         this.catalogTicket = new ArrayList<Ticket>();
         this.departureDestination = new ArrayList<City>();
         this.catalogHotel = new ArrayList<Hotel>();
         this.catalogCar = new ArrayList<RentalCar>();
+        this.poolTicket = new ArrayList<Integer>();
         initCatalog();
     }
 
@@ -83,10 +85,29 @@ public class Catalog {
     public void initCatalog(){
         ArrayList<JSONObject> catalogParsed = new ArrayList<JSONObject>();
         catalogParsed = parseCatalog();
+        addPoolTicket();
         addCity(catalogParsed);
         addTicket(catalogParsed);
         addHotel();
         addCar();
+    }
+    //Service 
+    public void addPoolTicket(){
+        poolTicket.add(1);
+        poolTicket.add(1);
+        poolTicket.add(1);
+    }
+    // verifi qu'il reste des tickets de reduction dans la liste
+    //retourne faux si la liste est vide ou vrai si pas vide
+    public boolean poolIsAvailable(){
+        if (poolTicket.isEmpty()){return false;}
+        return true;
+    }
+
+    public void usePoolTicket(){
+        if(poolIsAvailable()){
+            System.out.println("Vous benficiez d'une réduction de 20% sur votre vol");
+        this.poolTicket.remove(0);}
     }
     //Service
     public void addCity(ArrayList<JSONObject> catalog){

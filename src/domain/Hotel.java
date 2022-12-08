@@ -36,5 +36,12 @@ class Hotel {
         roomList.add(new Room("Chambre très chère", priceInitial *= 1.2));
 
     }
-
+    @Override
+    public boolean equals(Object o) {
+    if (o != null
+    && o.getClass() == this.getClass()
+    && this.getId() == ((Hotel) o).getId())
+    return true;
+    return false;
+ }
 }

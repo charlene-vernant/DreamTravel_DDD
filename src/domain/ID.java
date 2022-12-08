@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class ID {
     //Value Object
-    
+
     private final String id;
 
     ID(){
@@ -18,13 +18,13 @@ public class ID {
         return id;
     }
 
-    @Override
-    public boolean equals(Object other) {
-        if (! (other instanceof ID)) return false;
-        ID otherID = (ID) other;
-        boolean sameId = this.id == otherID.getId();
-        return sameId ;
-    }
+     @Override
+    public boolean equals(Object obj){
+            if (obj != null
+            && this.getClass()==obj.getClass()
+            && this.getId().equals(((ID) obj).getId())) return true;
+            return false;
+        }
     public String toString() {
         String chain = "" + id;
         return chain;

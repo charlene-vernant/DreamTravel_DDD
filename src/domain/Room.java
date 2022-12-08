@@ -20,13 +20,13 @@ class Room {
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (! (other instanceof Room)) return false;
-        Room otherRoom= (Room) other;
-        boolean sameName = this.roomName == otherRoom.getroomName();
-        boolean samePrice = this.roomPrice == otherRoom.getRoomPrice();
-        return sameName && samePrice;
-    }
+    public boolean equals(Object obj){
+            if (obj != null
+            && this.getClass()==obj.getClass()
+            && this.getRoomPrice()==(( (Room) obj).getRoomPrice())
+            && this.getroomName().equals(((Room) obj).getroomName())) return true;
+            return false;
+        }
 
     @Override
     public int hashCode() {

@@ -51,7 +51,7 @@ public class UI {
             }
         }
     }
-    //BUG
+    
     public void displayTravelByID(TravelRepository travel, String id) {
         System.out.println("Votre voyage : ");
         travel.findTravelById(id);
@@ -63,10 +63,7 @@ public class UI {
         repository.addTravel(travel);
         
     }
-    //bug
-    public void GetTravelFromRepository(TravelRepository repository, ID id){
-        repository.findTravelById(id);
-    }
+
     public String menuNewClient() {
         System.out.println("Veuillez entrez votre nom : ");
         String currentName = saisieChaine();
@@ -142,7 +139,6 @@ public class UI {
     }
 
     public void displayTravel() {
-        System.out.println("display qui marche pas");
         System.out.println(travel.toString());
     }
 
