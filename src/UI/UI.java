@@ -1,3 +1,4 @@
+
 package UI;
 
 import domain.*;
@@ -76,7 +77,6 @@ public class UI {
 
     public void displayDestinationDeparture() {
         System.out.println("Voici la listes des départs et destinations possibles : ");
-        catalog.addCity();
         catalog.displayCity();
 
     }
@@ -95,8 +95,8 @@ public class UI {
     public void displayCatalog(City departure, City destination) {
         // Listes de vols
         System.out.println(">>> Voici la liste des vols disponibles");
-        catalog.researchTicket(departure, destination);
-        catalog.displayTicketCatalog();
+        //catalog.researchTicket(departure, destination);
+        catalog.displayResearchTicketCatalog(departure, destination);
         System.out.println(">>>> Quel est votre choix ? ");
         int choiceTicket = saisieEntier();
         int classe = choiceClass();
@@ -178,3 +178,4 @@ public class UI {
         }
     }
 }
+

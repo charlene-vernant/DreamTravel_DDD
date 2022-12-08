@@ -8,7 +8,8 @@ import java.util.ArrayList;
 public class Travel {
     private ID id ;
     private ArrayList<Flight> flightList;
-    //private ArrayList<Service> serviceList; 
+    private ArrayList<Hotel> hotels; 
+    private ArrayList<RentalCar> cars; 
     // service est une entity qui doit contenir les hotels et les voitures
     private float price;
     private Client client;
@@ -37,14 +38,12 @@ public class Travel {
     /*public ArrayList<Service> getServiceList(){
         return serviceList;
     }*/
-
-    public void addFlight(City departure, City destination,int classe){
-        Flight flight = new Flight(departure,destination,classe);
+ 
+    public void addFlight(City departure, City destination,int classe,int price){
+        Flight flight = new Flight(departure,destination,classe, price);
         flightList.add(flight);
     }
-    /*public void addService(){
-        ;
-    }*/
+  
     @Override
     public String toString(){
         String chain = "id : " +this.id + " vols : "+flightList+" client : "+client+" prix: "+price; //voir pk ça beug

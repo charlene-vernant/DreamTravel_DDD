@@ -38,6 +38,5 @@ class Hotel {
         roomList.add(new Room("Chambre très chère", priceInitial*=1.2));
 
     }
-    // Voir comment je peux l'utiliser
     
 }

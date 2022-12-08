@@ -1,7 +1,7 @@
 package domain;
 
 import java.util.Objects;
-import java.util.Random;
+
 
 class Room {
     // ValueObject

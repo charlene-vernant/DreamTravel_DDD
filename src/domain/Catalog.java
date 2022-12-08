@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -22,8 +24,9 @@ public class Catalog {
         this.departureDestination = new ArrayList<City>();
         this.catalogHotel = new ArrayList<Hotel>();
         this.catalogCar = new ArrayList<RentalCar>();
-        
+        initCatalog();
     }
+
     public ArrayList<Hotel> getCatalogHotel(){
         return catalogHotel;
     }
@@ -51,11 +54,42 @@ public class Catalog {
         for (int i = 0; i < catalogTicket.size(); i++){
             System.out.println(">>> ("+i+") : " + catalogTicket.get(i).toString());
         }
+        System.out.println(catalogTicket.size());
+    }
+    public void displayResearchTicketCatalog(City departure, City destination){
+        
+        for (int i = 0; i < catalogTicket.size(); i++){
+            if ((catalogTicket.get(i).getDeparture().toString().equals(departure.toString())) && (catalogTicket.get(i).getDestination().toString().equals(destination.toString()))){
+                System.out.println(">>> ("+i+") : " + catalogTicket.get(i).toString());
+            }
+        }
+    }
+    public void displayHotelCatalog(){
+        
+        for (int i = 0; i < catalogHotel.size(); i++){
+            System.out.println(">>> ("+i+") : " + catalogHotel.get(i).toString());
+        }
+    }
+
+    public void displayCarCatalog(){
+        
+        for (int i = 0; i < catalogCar.size(); i++){
+            System.out.println(">>> ("+i+") : " + catalogCar.get(i).toString());
+        }
+    }
+
+
+
+    public void initCatalog(){
+        ArrayList<JSONObject> catalogParsed = new ArrayList<JSONObject>();
+        catalogParsed = parseCatalog();
+        addCity(catalogParsed);
+        addTicket(catalogParsed);
+        addHotel();
+        addCar();
     }
     //Service
-    public void addCity(){
-        ArrayList catalog = new ArrayList<>();
-        catalog = parseCatalog();
+    public void addCity(ArrayList<JSONObject> catalog){
         City tmp;
         for (int i = 0; i < catalog.size(); i++) {
             JSONObject city = (JSONObject) catalog.get(i);
@@ -65,20 +99,47 @@ public class Catalog {
 
         }
     }
+    
+    public void addTicket(ArrayList<JSONObject> catalog){
+        for(int departure = 0; departure<departureDestination.size();departure++){
+            for (int destination = 0; destination < departureDestination.size(); destination++){
+                if (departure != destination){
+                    researchTicket(catalog, departureDestination.get(departure), departureDestination.get(destination));
+                }
+            }
+        }
+    }
+    public boolean avoidDuplicateTicket(Ticket ticket){
+        boolean isNotDuplicate = true;
+        for (int i = 0; i< catalogTicket.size(); i++){
+            if (ticket.equals(catalogTicket.get(i))){
+                isNotDuplicate = false;
+            }
+        }
+        return isNotDuplicate;
+    }
     // Service
-    public void researchTicket(City departure, City destination){
+    public void researchTicket(ArrayList<JSONObject> catalog, City departure, City destination){
+        
+        Random r = new Random();
+        
+
         Ticket tmp ;        
-        if (isDirectTicketPossible(departure.toString(), destination.toString())){
-            tmp = new Ticket((City)departure, (City)destination);
-            catalogTicket.add(tmp);
+        if (isDirectTicketPossible(catalog, departure.toString(), destination.toString())){
+            int priceInitial = r.nextInt(150);
+            tmp = new Ticket((City)departure, (City)destination, priceInitial);
+            if (avoidDuplicateTicket(tmp)){
+                catalogTicket.add(tmp);
             }
-            ArrayList<String> stopovers = findStopover(departure.toString(), destination.toString());
-            for(int stopover = 0; stopover < stopovers.size(); stopover++){
-            String transit =  stopovers.get(stopover);
-            City transit1 = new City(transit); // DEgueulasse a revoir absolument
-            tmp = new Ticket((City)departure, transit1,(City)destination);
+        }
+        ArrayList<String> stopovers = initStopover(catalog, departure.toString(), destination.toString());
+        for(int stopover = 0; stopover < stopovers.size(); stopover++){
+            int priceInitial = r.nextInt(300);
+            String tmp2 =  stopovers.get(stopover);
+            City transit = new City(tmp2);
+            tmp = new Ticket((City)departure, transit,(City)destination,priceInitial*=2.5);
             catalogTicket.add(tmp);
-            }
+        }
 
     }
 
@@ -98,14 +159,14 @@ public class Catalog {
     }
 
 
-    public ArrayList parseCatalog() {
+    public ArrayList<JSONObject> parseCatalog() {
         JSONParser parser = new JSONParser();
-        ArrayList catalog = new ArrayList<>();
+        ArrayList<JSONObject> catalog = new ArrayList<>();
         try {
             Reader reader = new FileReader("src/domain/catalog.json");
             Object jsonObj = parser.parse(reader);
             JSONObject jsonObject = (JSONObject) jsonObj;
-            catalog = (ArrayList) jsonObject.get("catalog");
+            catalog = (ArrayList<JSONObject>) jsonObject.get("catalog");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -117,29 +178,16 @@ public class Catalog {
         return catalog;
     }
 
-    public boolean isDirectTicketPossible(String departure, String destination) {
+    public boolean isDirectTicketPossible(ArrayList<JSONObject> catalog, String departure, String destination) {
         boolean isPossible = false;
-        if (departureHasDestination(departure, destination)) {
+        if (departureHasDestination(catalog, departure, destination)) {
             isPossible = true;
         }
         return isPossible;
     }
 
-    public boolean catalogHasDeparture(String departure) {
-        boolean hasDeparture = false;
-        ArrayList catalog = parseCatalog();
-        for (int i = 0; i < catalog.size(); i++) {
-            JSONObject city = (JSONObject) catalog.get(i);
-            if (city.get("departure").toString().equals(departure)) {
-                hasDeparture = true;
-            }
-        }
-        return hasDeparture;
-    }
-
-    public boolean departureHasDestination(String departure, String destination) {
+    public boolean departureHasDestination(ArrayList<JSONObject> catalog, String departure, String destination) {
         boolean hasDestinaton = false;
-        ArrayList catalog = parseCatalog();
         for (int i = 0; i < catalog.size(); i++) {
             JSONObject city = (JSONObject) catalog.get(i);
             if (city.get("departure").toString().equals(departure)) {
@@ -154,17 +202,16 @@ public class Catalog {
         }
         return hasDestinaton;
     }
-
-    public ArrayList<String> findStopover(String departure, String destination) {
+    
+    public ArrayList<String> initStopover(ArrayList<JSONObject> catalog, String departure, String destination) {
         ArrayList<String> stopovers = new ArrayList<String>();
-        ArrayList catalog = parseCatalog();
         for (int i = 0; i < catalog.size(); i++) {
             JSONObject city = (JSONObject) catalog.get(i);
             if (city.get("departure").toString().equals(departure)) {
                 ArrayList<String> destinations = (ArrayList<String>) city.get("destination");
                 for (int e = 0; e < destinations.size(); e++) {
                     String stopover = destinations.get(e).toString();
-                    if (departureHasDestination(stopover, destination)) {
+                    if (departureHasDestination(catalog, stopover, destination)) {
                         stopovers.add(stopover);
                     }
                 }

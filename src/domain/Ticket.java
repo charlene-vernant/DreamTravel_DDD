@@ -7,29 +7,36 @@ public class Ticket {
     private final City departure;
     private final City destination;
     private final City transit;
+    private final int price;
 
-
-    Ticket(City departure, City destination) {
+    Ticket(City departure, City destination, int price) {
         this.departure = departure;
         this.destination = destination;
         transit = null;
+        this.price = price;
     }
 
-    Ticket(City departure, City transit, City destination) {
+    Ticket(City departure, City transit, City destination, int price) {
         this.departure = departure;
         this.destination = destination;
         this.transit = transit;
+        this.price = price;
 
     }
 
     public City getDestination() {
         return destination;
     }
-    public City getTransit(){
+
+    public City getTransit() {
         return transit;
     }
+
     public City getDeparture() {
         return departure;
+    }
+    public int getPrice(){
+        return price;
     }
 
     @Override
@@ -45,8 +52,9 @@ public class Ticket {
     public String toString() {
         String chain = "";
         if (transit != null) {
-            chain = "Départ : " + departure + " -- Transit : " + transit + " --Destination : " + destination;
-        }else chain = "Départ : " + departure + " -- Destination : " + destination;
+            chain = "Départ : " + departure + " -- Transit : " + transit + " --Destination : " + destination +" Tarif : "+price;
+        } else
+            chain = "Départ : " + departure + " -- Destination : " + destination+" Tarif : "+price;
 
         return chain;
     }

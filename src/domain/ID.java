@@ -4,6 +4,7 @@ import java.util.UUID;
 
 public class ID {
     //Value Object
+    
     private final String id;
 
     ID(){
