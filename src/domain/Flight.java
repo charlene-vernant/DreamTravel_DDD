@@ -5,8 +5,8 @@ public class Flight {
     private final City departure;
     private final City destination;
     private final int classe;
-
     // private final String reference;
+    
     Flight(City departure, City destination, int classe) {
         this.departure = departure;
         this.destination = destination;
@@ -27,6 +27,7 @@ public class Flight {
 
     public String toString() {
         String chain = "";
-        return chain = "Départ : " + departure + "--Destination : " + destination +"classe : "+classe;
+        chain += "Départ : " + departure + "--Destination : " + destination +"classe : "+classe;
+        return chain;
     }
 }

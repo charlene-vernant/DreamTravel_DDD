@@ -4,16 +4,16 @@ import java.util.ArrayList;
 class Hotel {
     // Entity
     private final ID id;
-    private final String hotelName;
+    private String hotelName;
     ArrayList<Room> roomList;
 
     Hotel(String hotelName) {
         this.id = new ID();
         this.hotelName = hotelName;
         this.roomList = new ArrayList<Room>();
-        // Ajoute automatiquement une liste de 3 Modele de voitures définies
+        // Ajoute automatiquement une liste de 2 type de chambre
         roomList.add(new Room("Chambre Pas chère", 10));
-        roomList.add(new Room("Chambre très chère", 100));
+        roomList.add(new Room("Chambre très chère", 100)); //+20%
        
     }
 

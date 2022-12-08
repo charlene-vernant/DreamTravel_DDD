@@ -1,18 +1,10 @@
 package UI;
 
-import org.json.simple.*;
-import org.json.simple.parser.JSONParser;
+import domain.*;
+
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import domain.*;
 
 public class UI {
     Catalog catalog = new Catalog();
@@ -28,29 +20,33 @@ public class UI {
     }
 
     public void displayHomeUser() {
-        System.out.println(">>> 1 : Créer un nouveau voyage");
-        System.out.println(">>> 2 : Afficher un voyage à partir de l'ID de commande");
-        System.out.println(">>> 0 : Quitter l'application");
-        int choice = saisieEntier();
-        switch (choice) {
-            case 0:
-                System.exit(0);
-                break;
-            case 1: {
-                String name = menuNewClient();
-                travel = new Travel(name);
-                displayDestinationDeparture(); // affiche la liste des destination/depart
-                displayCreateTravel(); // va afficher la liste des vols
-                displayTravel();
-            }
-                break;
-            case 2: {
-                displayTravelByID(1);
-            }
-                break;
-            default:
-                System.out.println(">>> [ERREUR] choix invalide");
+        while (true) {
+            System.out.println(">>> 1 : Créer un nouveau voyage");
+            System.out.println(">>> 2 : Afficher un voyage à partir de l'ID de commande");
+            System.out.println(">>> 0 : Quitter l'application");
+            int choice = saisieEntier();
+            switch (choice) {
+                case 0:
+                    System.exit(0);
+                    break;
+                case 1: {
+                    String name = menuNewClient();
+                    travel = new Travel(name);
+                    displayDestinationDeparture(); // affiche la liste des destination/depart
+                    displayCreateTravel(); // va afficher la liste des vols
+                    displayService();// affiche les services : hotel, voiture
+                    displayTravel();
+                    
+                }
+                    break;
+                case 2: {
+                    displayTravelByID(1);
+                }
+                    break;
+                default:
+                    System.out.println(">>> [ERREUR] choix invalide");
 
+            }
         }
     }
 
@@ -134,6 +130,10 @@ public class UI {
         travel.toString();
     }
 
+    public void displayService(){
+        ; 
+        // retirer les service du catalogue et placer le tout dans service directement ?
+    }
     public void displayChoiceService() {
         System.out.println(">>> 1 : Sans service");
         System.out.println(">>> 2 : Avec service");

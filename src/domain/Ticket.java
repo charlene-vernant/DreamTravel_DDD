@@ -13,7 +13,6 @@ public class Ticket {
         this.departure = departure;
         this.destination = destination;
         transit = null;
-
     }
 
     Ticket(City departure, City transit, City destination) {

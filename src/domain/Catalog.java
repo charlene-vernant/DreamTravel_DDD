@@ -14,13 +14,22 @@ public class Catalog {
     private final ID id;
     private  ArrayList<Ticket> catalogTicket;
     private  ArrayList<City> departureDestination ;
-
+    private  ArrayList<Hotel> catalogHotel ;
+    private  ArrayList<RentalCar> catalogCar ;
     public Catalog() {
         this.id = new ID();
         this.catalogTicket = new ArrayList<Ticket>();
         this.departureDestination = new ArrayList<City>();
+        this.catalogHotel = new ArrayList<Hotel>();
+        this.catalogCar = new ArrayList<RentalCar>();
+        
     }
-
+    public ArrayList<Hotel> getCatalogHotel(){
+        return catalogHotel;
+    }
+    public ArrayList<RentalCar> getCatalogCar(){
+        return catalogCar;
+    }
     public ArrayList<Ticket> getCatalogTicket() {
         return catalogTicket;
     }
@@ -63,7 +72,6 @@ public class Catalog {
             tmp = new Ticket((City)departure, (City)destination);
             catalogTicket.add(tmp);
             }
-            //System.out.println(">>>> Vol avec escale :");
             ArrayList<String> stopovers = findStopover(departure.toString(), destination.toString());
             for(int stopover = 0; stopover < stopovers.size(); stopover++){
             String transit =  stopovers.get(stopover);
@@ -73,6 +81,23 @@ public class Catalog {
             }
 
     }
+
+    //Service
+    public void addHotel(){
+        catalogHotel.add(new Hotel("Hotel du CROUS"));
+        catalogHotel.add(new Hotel("Hotel du Quartier"));
+        catalogHotel.add(new Hotel("Hotel de la Plage"));
+        catalogHotel.add(new Hotel("Hotel des Petits Pois"));
+    }
+    //Service
+    public void addCar(){
+        catalogCar.add(new RentalCar("Voiture2000"));
+        catalogCar.add(new RentalCar("Roue-Roue"));
+        catalogCar.add(new RentalCar("AMG Turbo Feu"));
+        catalogCar.add(new RentalCar("Automobile"));
+    }
+
+
     public ArrayList parseCatalog() {
         JSONParser parser = new JSONParser();
         ArrayList catalog = new ArrayList<>();
