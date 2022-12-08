@@ -1,22 +1,26 @@
 package UI;
 
 import domain.*;
+import infra.TravelRepositoryInMemory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class UI {
-    Catalog catalog = new Catalog();
-    Travel travel;
-
+    Catalog catalog = new Catalog(); // voir ou le mettre
+    Travel travel; // Voir ou le mettre
+    TravelRepository repository = new TravelRepositoryInMemory(); // voir ou le mettre
     public UI() {
         displayHomeUser();
     }
 
-    public void displayTravelByID(int ID) {
-        System.out.println("Votre voyage : ....."); // TODO0
-
+    //BUG
+    public void displayTravelByID(TravelRepository travel, String id) {
+        ID newID = new ID(id);
+        System.out.println("Votre voyage : ");
+        travel.findTravelById(newID);
     }
 
     public void displayHomeUser() {
@@ -36,11 +40,14 @@ public class UI {
                     displayCreateTravel(); // va afficher la liste des vols
                     displayService();// affiche les services : hotel, voiture
                     displayTravel();
-                    
+                    AddTravelToRepository(repository, travel);
+                    //this.repository.findTravelById(id);
                 }
                     break;
                 case 2: {
-                    displayTravelByID(1);
+                    System.out.println("ID du voyage : ");
+                    String input = saisieChaine();
+                    displayTravelByID(repository, input);
                 }
                     break;
                 default:
@@ -50,6 +57,16 @@ public class UI {
         }
     }
 
+    public void AddTravelToRepository(TravelRepository repository, Travel travel) {
+        this.repository = repository;
+        travel.toString();
+        repository.addTravel(travel);
+        
+    }
+    //bug
+    public void GetTravelFromRepository(TravelRepository repository, ID id){
+        repository.findTravelById(id);
+    }
     public String menuNewClient() {
         System.out.println("Veuillez entrez votre nom : ");
         String currentName = saisieChaine();
@@ -126,8 +143,8 @@ public class UI {
     }
 
     public void displayTravel() {
-        System.out.println("fdp");
-        travel.toString();
+        System.out.println("display qui marche pas");
+        System.out.println(travel.toString());
     }
 
     public void displayService(){

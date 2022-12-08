@@ -5,7 +5,6 @@ public class Flight {
     private final City departure;
     private final City destination;
     private final int classe;
-    // private final String reference;
     
     Flight(City departure, City destination, int classe) {
         this.departure = departure;

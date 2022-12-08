@@ -47,10 +47,7 @@ public class Travel {
     }*/
     @Override
     public String toString(){
-        System.out.println("oue");
-    
         String chain = "id : " +this.id + " vols : "+flightList+" client : "+client+" prix: "+price; //voir pk ça beug
-        System.out.println(chain);
         return chain;
     }
    
