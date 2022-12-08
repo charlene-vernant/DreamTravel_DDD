@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.Objects;
+import java.util.Random;
 
 class Room {
     // ValueObject
@@ -31,4 +32,6 @@ class Room {
     public int hashCode() {
         return Objects.hash(roomName,roomPrice);
     }
+
+    
 }

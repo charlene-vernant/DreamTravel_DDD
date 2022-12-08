@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 class RentalCar {
     // Entity
@@ -12,10 +13,7 @@ class RentalCar {
         this.id = new ID();
         this.nameRentalCar = nameRentalCar;
         this.carList = new ArrayList<CarModel>();
-        // Ajoute automatiquement une liste de 3 Modele de voitures définies
-        carList.add(new CarModel("Multipla", 30));
-        carList.add(new CarModel("Ferrari", 200));
-        carList.add(new CarModel("4x4 Tout-terrain", 100));
+        initCar();
     }
 
     public ID getID() {
@@ -31,11 +29,13 @@ class RentalCar {
     }
 
     // Voir comment je peux l'utiliser
-    public void addCar() {
+    public void initCar() {
+        Random r = new Random();
+        int priceInitial = r.nextInt(30);
         carList = getCarList();
-        carList.add(new CarModel("Multipla", 30));
-        carList.add(new CarModel("Ferrari", 200));
-        carList.add(new CarModel("4x4 Tout-terrain", 100));
+        carList.add(new CarModel("Multipla", priceInitial));
+        carList.add(new CarModel("Ferrari", priceInitial*=1.2));
+        carList.add(new CarModel("4x4 Tout-terrain", priceInitial*=0.6));
 
     }
 }
