@@ -34,17 +34,17 @@ class RentalCar {
         int priceInitial = r.nextInt(30);
         carList = getCarList();
         carList.add(new CarModel("Multipla", priceInitial));
-        carList.add(new CarModel("Ferrari", priceInitial*=1.2));
-        carList.add(new CarModel("4x4 Tout-terrain", priceInitial*=0.6));
+        carList.add(new CarModel("Ferrari", priceInitial *= 1.3));
+        carList.add(new CarModel("4x4 Tout-terrain", priceInitial *= 1.2));
 
     }
 
     @Override
     public boolean equals(Object o) {
-    if (o != null
-    && o.getClass() == this.getClass()
-    && this.getID() == ((Hotel) o).getId())
-    return true;
-    return false;
+        if (o != null
+                && o.getClass() == this.getClass()
+                && this.getID() == ((Hotel) o).getId())
+            return true;
+        return false;
     }
 }

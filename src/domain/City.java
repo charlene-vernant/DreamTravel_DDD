@@ -15,13 +15,14 @@ public class City {
     }
 
     @Override
-    public boolean equals(Object obj){
-            if (obj != null
-            && this.getClass()==obj.getClass()
-            && this.getName().equals((( (City) obj).getName()))) return true;
-            return false;
-        }
-   
+    public boolean equals(Object obj) {
+        if (obj != null
+                && this.getClass() == obj.getClass()
+                && this.getName().equals((((City) obj).getName())))
+            return true;
+        return false;
+    }
+
     public String toString() {
         String chain = "" + cityName;
         return chain;

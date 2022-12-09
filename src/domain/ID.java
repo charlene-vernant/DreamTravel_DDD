@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class ID {
     //Value Object
-
+    
     private final String id;
 
     ID(){
@@ -18,7 +18,7 @@ public class ID {
         return id;
     }
 
-     @Override
+    @Override
     public boolean equals(Object obj){
             if (obj != null
             && this.getClass()==obj.getClass()

@@ -1,13 +1,16 @@
 package domain;
 
+import java.time.LocalDate;
+
 public class Flight {
     // ValueObject
     private final City departure;
     private final City destination;
     private final int classe;
-    private final int price;
+    private final float price;
+    private final LocalDate date;
 
-    Flight(City departure, City destination, int classe, int price) {
+    Flight(City departure, City destination, int classe, float price, LocalDate date) {
         this.departure = departure;
         this.destination = destination;
         this.classe = classe;
@@ -16,9 +19,10 @@ public class Flight {
         } else {
             this.price = price;
         }
+        this.date = date;
     }
 
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 
@@ -33,6 +37,11 @@ public class Flight {
     public City getDestination() {
         return destination;
     }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
     @Override
     public boolean equals(Object obj){
             if (obj != null
@@ -43,10 +52,10 @@ public class Flight {
             && this.getDestination().equals(((Flight) obj).getDestination())) return true;
             return false;
         }
-    @Override   
+    @Override 
     public String toString() {
         String chain = "";
-        chain += "Départ : " + departure + "--Destination : " + destination + "classe : " + classe;
+        chain += "Départ : " + departure + " | Destination : " + destination + " | Classe : " + classe+ " | Prix : "+price+" | Date : " + date;
         return chain;
     }
 }
