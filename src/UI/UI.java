@@ -17,7 +17,7 @@ public class UI {
     }
 
     public void displayTravelByID(TravelRepository travel, String id) {
-        System.out.println("Votre voyage : ");
+        System.out.println(">>> Votre voyage : ");
         travel.findTravelById(id);
     }
 
@@ -42,7 +42,7 @@ public class UI {
                 }
                     break;
                 case 2: {
-                    System.out.println("ID du voyage : ");
+                    System.out.println(">>> ID du voyage : ");
                     String input = saisieChaine();
                     displayTravelByID(repository, input);
                 }
@@ -61,14 +61,14 @@ public class UI {
     }
 
     public String menuNewClient() {
-        System.out.println("Veuillez entrez votre nom : ");
+        System.out.println(">>> Veuillez entrez votre nom : ");
         String currentName = saisieChaine();
-        System.out.println("Parfait " + currentName + " maintenant veuillez-choisir un vol");
+        System.out.println(">>> Parfait " + currentName + " maintenant veuillez-choisir un vol");
         return currentName;
     }
 
     public void displayDestinationDeparture() {
-        System.out.println("Voici la listes des départs et destinations possibles : ");
+        System.out.println(">>> Voici la listes des départs et destinations possibles : ");
         catalog.displayCity();
 
     }
@@ -103,7 +103,7 @@ public class UI {
     }
 
     public int delayForNextFlight(City transit){
-        System.out.println("Combien de jours voulez vous rester à" + transit);
+        System.out.println(">>> Combien de jours voulez vous rester à " + transit);
         int delayForNextFlight = saisieEntier();
         return delayForNextFlight;
     }
@@ -133,12 +133,12 @@ public class UI {
         int intClass = saisieEntier();
         if (intClass == 1) {
             flag = 1;
-            System.out.println("Vous avez selectionné un vol en première classe");
+            System.out.println(">>> Vous avez selectionné un vol en première classe");
         } else if (intClass == 2) {
             flag = 2;
-            System.out.println("Vous avez selectionné un vol en classe eco");
+            System.out.println(">>> Vous avez selectionné un vol en classe eco");
         } else {
-            System.out.println("[ERREUR] choix invalide");
+            System.out.println(">>> [ERREUR] choix invalide");
             choiceClass();
         }
         return flag;
@@ -158,7 +158,7 @@ public class UI {
     public void displayChoiceServiceSimple(){
         System.out.println(">>> 1 : Sans service - Aucun hotel et voiture");
         System.out.println(">>> 2 : Avec service simple - 1 hotel et 1 voiture pour la destination");
-        System.out.println(">>>> Quel est votre choix ? ");
+        System.out.println(">>> Quel est votre choix ? ");
     }
 
     public void choiceServiceSimple() {
@@ -180,7 +180,7 @@ public class UI {
         System.out.println(">>> 1 : Sans service ");
         System.out.println(">>> 2 : Avec service simple - 1 hotel et 1 voiture pour 1 seule destination");
         System.out.println(">>> 3 : Avec service deluxe - 1 hotel et 1 voiture pour les 2 destinations");
-        System.out.println(">>>> Quel est votre choix ? ");
+        System.out.println(">>> Quel est votre choix ? ");
     }
     public void choiceServiceMultiple(){
         displayChoiceServiceMultiple();
@@ -205,7 +205,7 @@ public class UI {
     public void displayHotelCatalog(){
         System.out.println(">>> Voici la liste des hotels");
         catalog.displayHotelCatalog();
-        System.out.println(">>>> Quel est votre choix ? ");
+        System.out.println(">>> Quel est votre choix ? ");
         int choiceHotel = saisieEntier();
         catalog.displayRoomCatalog(choiceHotel);
         int choiceRoom = saisieEntier();
@@ -217,7 +217,7 @@ public class UI {
     public void displayCarCatalog(){
         System.out.println(">>> Voici la liste des loueurs de voitures");
         catalog.displayCarCatalog();
-        System.out.println(">>>> Quel est votre choix ? ");
+        System.out.println(">>> Quel est votre choix ? ");
         int choiceCar = saisieEntier();
         catalog.displayModelCatalog(choiceCar);
         int choiceModel = saisieEntier();
@@ -241,7 +241,7 @@ public class UI {
             String chaine = buff.readLine();
             return chaine;
         } catch (IOException e) {
-            System.out.println(" impossible de travailler" + e);
+            System.out.println(">>> impossible de travailler" + e);
             return null;
         }
     }

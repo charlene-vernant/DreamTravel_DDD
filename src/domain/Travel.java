@@ -27,18 +27,15 @@ public class Travel {
     public void updatePrice() {
         for (int flight = 0; flight < flightList.size(); flight++) {
             this.price += flightList.get(flight).getPrice();
-            System.out.println(flightList.get(flight).getPrice());
         }
         for (ArrayList<Room> roomList : rooms.values()) {
             for (Room room : roomList) {
                 this.price += room.getRoomPrice();
-                System.out.println(room.getRoomPrice());
             }
         }
         for (ArrayList<CarModel> carModelList : cars.values()) {
             for (CarModel carModel : carModelList) {
                 this.price += carModel.getCarPrice();
-                System.out.println(carModel.getCarPrice());
             }
         }
     }
