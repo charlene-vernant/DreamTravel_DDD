@@ -104,14 +104,21 @@ public class UI {
         return currentPrice;
     }
 
+    public int delayForNextFlight(City transit){
+        System.out.println("Combien de jours voulez vous rester à" + transit);
+        int delayForNextFlight = saisieEntier();
+        return delayForNextFlight;
+    }
+
     public void createFlight(Ticket ticket, int classe) {
         if (ticket.getTransit() != null) {
             System.out.println("vol multiple");
             float tmpPrice = usePoolTicket(ticket.getPrice()); 
+            int delayForNextFlight = delayForNextFlight(ticket.getTransit());
             //On add les flight avec la même date pour les deux pour le moment (sinon c'est pas cohérent avec la date générée 
             //dans ticket, vu que le transit est aussi généré dedans)           
             travel.addFlight(ticket.getDeparture(), ticket.getTransit(), classe, tmpPrice, ticket.getDate());
-            travel.addFlight(ticket.getTransit(), ticket.getDestination(), classe, tmpPrice, ticket.getDate());
+            travel.addFlight(ticket.getTransit(), ticket.getDestination(), classe, tmpPrice, ticket.getDate().plusDays(delayForNextFlight));
             choiceServiceMultiple();
             
             
