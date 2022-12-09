@@ -5,7 +5,7 @@ import java.util.Objects;
 class CarModel {
     //Value Object
     private final String carName;
-    private final int carPrice;
+    private final float carPrice;
     CarModel(String carName, int carPrice) {
         this.carName = carName;
         this.carPrice = carPrice;
@@ -14,7 +14,7 @@ class CarModel {
     public String getCarName() {
         return carName;
     }
-    public int getCarPrice(){
+    public float getCarPrice(){
         return carPrice;
     }
 

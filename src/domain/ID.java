@@ -19,12 +19,12 @@ public class ID {
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (! (other instanceof ID)) return false;
-        ID otherID = (ID) other;
-        boolean sameId = this.id == otherID.getId();
-        return sameId ;
-    }
+    public boolean equals(Object obj){
+            if (obj != null
+            && this.getClass()==obj.getClass()
+            && this.getId().equals(((ID) obj).getId())) return true;
+            return false;
+        }
     public String toString() {
         String chain = "" + id;
         return chain;

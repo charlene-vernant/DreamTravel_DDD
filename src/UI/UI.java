@@ -7,7 +7,7 @@ import infra.TravelRepositoryInMemory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.time.LocalDate;
 
 public class UI {
     Catalog catalog = new Catalog(); // voir ou le mettre
@@ -17,7 +17,6 @@ public class UI {
         displayHomeUser();
     }
 
-    //BUG
     public void displayTravelByID(TravelRepository travel, String id) {
         ID newID = new ID(id);
         System.out.println("Votre voyage : ");
@@ -39,7 +38,6 @@ public class UI {
                     travel = new Travel(name);
                     displayDestinationDeparture(); // affiche la liste des destination/depart
                     displayCreateTravel(); // va afficher la liste des vols
-                    displayService();// affiche les services : hotel, voiture
                     displayTravel();
                     AddTravelToRepository(repository, travel);
                     //this.repository.findTravelById(id);
@@ -64,10 +62,7 @@ public class UI {
         repository.addTravel(travel);
         
     }
-    //bug
-    public void GetTravelFromRepository(TravelRepository repository, ID id){
-        repository.findTravelById(id);
-    }
+
     public String menuNewClient() {
         System.out.println("Veuillez entrez votre nom : ");
         String currentName = saisieChaine();
@@ -95,7 +90,6 @@ public class UI {
     public void displayCatalog(City departure, City destination) {
         // Listes de vols
         System.out.println(">>> Voici la liste des vols disponibles");
-        //catalog.researchTicket(departure, destination);
         catalog.displayResearchTicketCatalog(departure, destination);
         System.out.println(">>>> Quel est votre choix ? ");
         int choiceTicket = saisieEntier();
@@ -105,23 +99,32 @@ public class UI {
         createFlight(ticket, classe);
     }
 
+    public float usePoolTicket(float currentPrice){
+        if(catalog.poolIsAvailable()){
+            currentPrice *= 1.2;
+            catalog.usePoolTicket();
+        }
+        return currentPrice;
+    }
+
     public void createFlight(Ticket ticket, int classe) {
         if (ticket.getTransit() != null) {
             System.out.println("vol multiple");
-            travel.addFlight(ticket.getDeparture(), ticket.getTransit(), classe);
-            travel.addFlight(ticket.getTransit(), ticket.getDestination(), classe);
+            float tmpPrice = usePoolTicket(ticket.getPrice());            
+            travel.addFlight(ticket.getDeparture(), ticket.getTransit(), classe, tmpPrice, ticket.getDate());
+            travel.addFlight(ticket.getTransit(), ticket.getDestination(), classe, tmpPrice, ticket.getDate());
+            //travel.updatePrice(tmpPrice); C'était pour test les prix mais ça marche pas
+            //travel.getPrice();
+            //BUG du test (nullpointer)
+            choiceServiceMultiple();
+            
+            
         } else {
             System.out.println("vol direct");
-            travel.addFlight(ticket.getDeparture(), ticket.getDestination(), classe);
+            float tmpPrice = usePoolTicket(ticket.getPrice());            
+            travel.addFlight(ticket.getDeparture(), ticket.getDestination(), classe, tmpPrice, ticket.getDate());
+            choiceServiceSimple();
         }
-    }
-
-    public int choiceHotel() {
-        return 0;
-    }
-
-    public int choiceCar() {
-        return 0;
     }
 
     public int choiceClass() {
@@ -143,17 +146,85 @@ public class UI {
     }
 
     public void displayTravel() {
-        System.out.println("display qui marche pas");
         System.out.println(travel.toString());
     }
 
-    public void displayService(){
-        ; 
-        // retirer les service du catalogue et placer le tout dans service directement ?
+    public void displayService(int nombreService){
+        for (int i = 0; i < nombreService; i++){
+            System.out.println(">>> Choix des services pour la destination "+i+" :");
+            displayHotelCatalog();
+            displayCarCatalog();
+        }
     }
-    public void displayChoiceService() {
-        System.out.println(">>> 1 : Sans service");
-        System.out.println(">>> 2 : Avec service");
+    public void displayChoiceServiceSimple(){
+        System.out.println(">>> 1 : Sans service - Aucun hotel et voiture");
+        System.out.println(">>> 2 : Avec service simple - 1 hotel et 1 voiture pour la destination");
+        System.out.println(">>>> Quel est votre choix ? ");
+    }
+
+    public void choiceServiceSimple() {
+        displayChoiceServiceSimple();
+        int choiceService = saisieEntier();
+        switch(choiceService){
+            case 1:
+                System.out.println(">>> Vous avez choisi de prendre aucun service");
+                break;
+            case 2:
+                System.out.println(">>> Vous avez choisi de prendre 1 hotel et 1 voiture");
+                displayService(1);
+                break;
+            default:
+                System.out.println(">>> [ERREUR] choix invalide");
+        }
+    }
+    public void displayChoiceServiceMultiple() {
+        System.out.println(">>> 1 : Sans service - Aucun hotel et voiture");
+        System.out.println(">>> 2 : Avec service simple - 1 hotel et 1 voiture pour 1 seule destination");
+        System.out.println(">>> 3 : Avec service deluxe - 1 hotel et 1 voiture pour les 2 destinations");
+        System.out.println(">>>> Quel est votre choix ? ");
+    }
+    public void choiceServiceMultiple(){
+        displayChoiceServiceMultiple();
+        int choiceService = saisieEntier();
+        switch(choiceService){
+            case 1:
+                System.out.println(">>> Vous avez choisi de prendre aucun service");
+                break;
+            case 2:
+                System.out.println(">>> Vous avez choisi de prendre 1 hotel et 1 voiture");
+                displayService(1);
+                break;
+            case 3:
+                System.out.println(">>> Vous avez choisi de prendre 1 hotel et 1 voiture à chaque destination");
+                displayService(2);
+                break;
+            default:
+                System.out.println(">>> [ERREUR] choix invalide");
+        }
+    }
+
+    public void displayHotelCatalog(){
+        System.out.println(">>> Voici la liste des hotels");
+        catalog.displayHotelCatalog();
+        System.out.println(">>>> Quel est votre choix ? ");
+        int choiceHotel = saisieEntier();
+        catalog.displayRoomCatalog(choiceHotel);
+        int choiceRoom = saisieEntier();
+        System.out.println(catalog.getHotelID(choiceHotel));
+        System.out.println(catalog.getRoom(choiceHotel, choiceRoom));
+        //travel.addHotel(catalog.getHotelID(1), catalog.getRoom(1, 1));  
+        //BUG nullpointer
+    }
+
+    public void displayCarCatalog(){
+        System.out.println(">>> Voici la liste des loueurs de voitures");
+        catalog.displayCarCatalog();
+        System.out.println(">>>> Quel est votre choix ? ");
+        int choiceCar = saisieEntier();
+        catalog.displayModelCatalog(choiceCar);
+        int choiceModel = saisieEntier();
+        //travel.addRentalCar(catalog.getCarID(choiceCar), catalog.getModel(choiceCar, choiceModel));
+        //BUG nullpointer
     }
 
     public int saisieEntier() {

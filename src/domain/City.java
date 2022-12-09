@@ -15,12 +15,11 @@ public class City {
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (!(other instanceof City))
-            return false;
-        City otherCity = (City) other;
-        boolean sameName = this.cityName == otherCity.getName();
-        return sameName;
+    public boolean equals(Object obj){
+        if (obj != null
+        && this.getClass()==obj.getClass()
+        && this.getName().equals((( (City) obj).getName()))) return true;
+        return false;
     }
    
     public String toString() {

@@ -1,19 +1,25 @@
 package domain;
 
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.Random;
 
 public class Ticket {
     // ValueObject
     private final City departure;
     private final City destination;
     private final City transit;
-    private final int price;
+    private final float price;
+    private final LocalDate date;
 
-    Ticket(City departure, City destination, int price) {
+    Ticket(City departure, City destination, float price) {
         this.departure = departure;
         this.destination = destination;
         transit = null;
         this.price = price;
+        this.date=initDate();
     }
 
     Ticket(City departure, City transit, City destination, int price) {
@@ -21,7 +27,14 @@ public class Ticket {
         this.destination = destination;
         this.transit = transit;
         this.price = price;
+        this.date=initDate();
+    }
 
+    public LocalDate initDate(){
+        Random r = new Random();
+        int days = r.nextInt(7);
+        LocalDate localDate = LocalDate.now().plusDays(days);
+        return localDate;
     }
 
     public City getDestination() {
@@ -35,26 +48,30 @@ public class Ticket {
     public City getDeparture() {
         return departure;
     }
-    public int getPrice(){
+    public float getPrice(){
         return price;
     }
 
-    @Override
-    public boolean equals(Object other) {
-        if (!(other instanceof Ticket))
-            return false;
-        Ticket otherTicket = (Ticket) other;
-        boolean sameDeparture = this.departure == otherTicket.getDeparture();
-        boolean sameDestination = this.destination == otherTicket.getDestination();
-        return sameDeparture && sameDestination;
+    public LocalDate getDate() {
+        return date;
     }
 
+    @Override
+    public boolean equals(Object obj){
+        if (obj != null
+        && this.getClass()==obj.getClass()
+        && this.getPrice()==(( (Ticket) obj).getPrice())
+        && this.getDeparture().equals(((Ticket) obj).getDeparture())
+        && this.getTransit().equals(((Ticket) obj).getTransit())
+        && this.getDestination().equals(((Ticket) obj).getDestination())) return true;
+        return false;
+    }
     public String toString() {
         String chain = "";
         if (transit != null) {
-            chain = "Départ : " + departure + " -- Transit : " + transit + " --Destination : " + destination +" Tarif : "+price;
+            chain = "Départ : " + departure + " -- Transit : " + transit + " --Destination : " + destination +" Tarif : "+price+" Date: "+this.date;
         } else
-            chain = "Départ : " + departure + " -- Destination : " + destination+" Tarif : "+price;
+            chain = "Départ : " + departure + " -- Destination : " + destination+" Tarif : "+price+" Date: "+this.date;
 
         return chain;
     }

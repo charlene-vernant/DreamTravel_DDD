@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import org.json.simple.JSONObject;
@@ -18,13 +17,37 @@ public class Catalog {
     private  ArrayList<City> departureDestination ;
     private  ArrayList<Hotel> catalogHotel ;
     private  ArrayList<RentalCar> catalogCar ;
+    private  ArrayList<Integer> poolTicket ;
+
     public Catalog() {
         this.id = new ID();
         this.catalogTicket = new ArrayList<Ticket>();
         this.departureDestination = new ArrayList<City>();
         this.catalogHotel = new ArrayList<Hotel>();
         this.catalogCar = new ArrayList<RentalCar>();
+        this.poolTicket = new ArrayList<Integer>();
         initCatalog();
+    }
+
+    public ID getHotelID(int choice){
+        return catalogHotel.get(choice).getId();
+    }
+    public ID getCarID(int choice){
+        return catalogCar.get(choice).getID();
+    }
+
+    public Room getRoom(int choiceHotel, int choiceRoom){
+        /*
+         * La manière de faire ici c'est un peu dégueu, j'ai pas réussi à penser à autre chose
+         */
+        return (Room)catalogHotel.get(choiceHotel).roomList.get(choiceRoom);
+    }
+
+    public CarModel getModel(int choiceCar, int choiceModel){
+        /*
+         * La manière de faire ici c'est un peu dégueu, j'ai pas réussi à penser à autre chose
+         */
+        return catalogCar.get(choiceCar).getCarList().get(choiceModel);
     }
 
     public ArrayList<Hotel> getCatalogHotel(){
@@ -67,26 +90,58 @@ public class Catalog {
     public void displayHotelCatalog(){
         
         for (int i = 0; i < catalogHotel.size(); i++){
-            System.out.println(">>> ("+i+") : " + catalogHotel.get(i).toString());
+            System.out.println(">>> ("+i+") : " + catalogHotel.get(i).getHotelName());
+        }
+    }
+
+    public void displayRoomCatalog(int choice){
+        ArrayList<Room> rooms = catalogHotel.get(choice).getRoomList();
+        for (int i = 0; i < rooms.size(); i++){
+            System.out.println(">>> ("+i+") : " + rooms.get(i).getroomName()+ ", prix: "+ rooms.get(i).getRoomPrice());
         }
     }
 
     public void displayCarCatalog(){
         
         for (int i = 0; i < catalogCar.size(); i++){
-            System.out.println(">>> ("+i+") : " + catalogCar.get(i).toString());
+            System.out.println(">>> ("+i+") : " + catalogCar.get(i).getNameRentalCar());
         }
     }
 
+    public void displayModelCatalog(int choice){
+        ArrayList<CarModel> carModels = catalogCar.get(choice).getCarList();
+        for (int i = 0; i < carModels.size(); i++){
+            System.out.println(">>> ("+i+") : " + carModels.get(i).getCarName()+ ", prix: "+ carModels.get(i).getCarPrice());
+        }
+    }
 
 
     public void initCatalog(){
         ArrayList<JSONObject> catalogParsed = new ArrayList<JSONObject>();
         catalogParsed = parseCatalog();
+        addPoolTicket();
         addCity(catalogParsed);
         addTicket(catalogParsed);
         addHotel();
         addCar();
+    }
+    //Service 
+    public void addPoolTicket(){
+        poolTicket.add(1);
+        poolTicket.add(1);
+        poolTicket.add(1);
+    }
+    // verifi qu'il reste des tickets de reduction dans la liste
+    //retourne faux si la liste est vide ou vrai si pas vide
+    public boolean poolIsAvailable(){
+        if (poolTicket.isEmpty()){return false;}
+        return true;
+    }
+
+    public void usePoolTicket(){
+        if(poolIsAvailable()){
+            System.out.println("Vous benficiez d'une réduction de 20% sur votre vol");
+        this.poolTicket.remove(0);}
     }
     //Service
     public void addCity(ArrayList<JSONObject> catalog){

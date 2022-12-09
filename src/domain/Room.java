@@ -3,11 +3,11 @@ package domain;
 import java.util.Objects;
 
 
-class Room {
+public class Room {
     // ValueObject
     private final String roomName;
-    private final int roomPrice;
-    Room(String roomName, int roomPrice){
+    private final float roomPrice;
+    Room(String roomName, float roomPrice){
         this.roomName=roomName;
         this.roomPrice=roomPrice;
     }
@@ -15,17 +15,17 @@ class Room {
     public String getroomName() {
         return roomName;
     }
-    public int getRoomPrice() {
+    public float getRoomPrice() {
         return roomPrice;
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (! (other instanceof Room)) return false;
-        Room otherRoom= (Room) other;
-        boolean sameName = this.roomName == otherRoom.getroomName();
-        boolean samePrice = this.roomPrice == otherRoom.getRoomPrice();
-        return sameName && samePrice;
+    public boolean equals(Object obj){
+        if (obj != null
+        && this.getClass()==obj.getClass()
+        && this.getRoomPrice()==(( (Room) obj).getRoomPrice())
+        && this.getroomName().equals(((Room) obj).getroomName())) return true;
+        return false;
     }
 
     @Override
