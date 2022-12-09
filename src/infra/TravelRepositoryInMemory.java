@@ -18,9 +18,7 @@ public class TravelRepositoryInMemory implements TravelRepository {
         this.memory.add(travel);
     }
 
-    public void updateTRavel(Travel travel) {
-        this.memory.add(travel);
-    }
+
 
     @Override
     public Travel findTravelById(String id) {

@@ -34,8 +34,8 @@ public class UI {
                 case 1: {
                     String name = menuNewClient();
                     travel = new Travel(name);
-                    displayDestinationDeparture(); // affiche la liste des destination/depart
-                    displayCreateTravel(); // va afficher la liste des vols
+                    displayDestinationDeparture(); 
+                    displayCreateTravel(); 
                     travel.updatePrice();
                     displayTravel();
                     AddTravelToRepository(repository, travel);
@@ -63,7 +63,7 @@ public class UI {
     public String menuNewClient() {
         System.out.println("Veuillez entrez votre nom : ");
         String currentName = saisieChaine();
-        System.out.println("Parfait " + currentName + " maintenant tu vas choisir un vol batar");
+        System.out.println("Parfait " + currentName + " maintenant veuillez-choisir un vol");
         return currentName;
     }
 
@@ -74,7 +74,7 @@ public class UI {
     }
 
     public void displayCreateTravel() {
-        System.out.println(">>> Commencez par indiquer votre destination : ");
+        System.out.println(">>> Commencez par indiquer votre destination : \n");
         int choiceDestination = saisieEntier();
         City destination = catalog.getDepartureDestination().get(choiceDestination);
         System.out.println(">>> D'où souhaitez vous partir ? : ");
@@ -85,13 +85,11 @@ public class UI {
     }
 
     public void displayCatalog(City departure, City destination) {
-        // Listes de vols
         System.out.println(">>> Voici la liste des vols disponibles");
         catalog.displayResearchTicketCatalog(departure, destination);
         System.out.println(">>>> Quel est votre choix ? ");
         int choiceTicket = saisieEntier();
         int classe = choiceClass();
-        // creer nouveau vol
         Ticket ticket = catalog.getCatalogTicket().get(choiceTicket);
         createFlight(ticket, classe);
     }
@@ -112,18 +110,16 @@ public class UI {
 
     public void createFlight(Ticket ticket, int classe) {
         if (ticket.getTransit() != null) {
-            System.out.println("vol multiple");
+            // Multiple Flight
             float tmpPrice = usePoolTicket(ticket.getPrice()); 
-            int delayForNextFlight = delayForNextFlight(ticket.getTransit());
-            //On add les flight avec la même date pour les deux pour le moment (sinon c'est pas cohérent avec la date générée 
-            //dans ticket, vu que le transit est aussi généré dedans)           
+            int delayForNextFlight = delayForNextFlight(ticket.getTransit());         
             travel.addFlight(ticket.getDeparture(), ticket.getTransit(), classe, tmpPrice, ticket.getDate());
             travel.addFlight(ticket.getTransit(), ticket.getDestination(), classe, tmpPrice, ticket.getDate().plusDays(delayForNextFlight));
             choiceServiceMultiple();
             
             
         } else {
-            System.out.println("vol direct");
+            // Single Flight
             float tmpPrice = usePoolTicket(ticket.getPrice());            
             travel.addFlight(ticket.getDeparture(), ticket.getDestination(), classe, tmpPrice, ticket.getDate());
             choiceServiceSimple();
@@ -131,16 +127,16 @@ public class UI {
     }
 
     public int choiceClass() {
-        System.out.println(">>> 1 : Première classe");
+        System.out.println(">>> 1 : Première classe (prix du vol majoré à 30%");
         System.out.println(">>> 2 : Classe éco");
         int flag = 0;
         int intClass = saisieEntier();
         if (intClass == 1) {
             flag = 1;
-            System.out.println("Vous avez selectionné un vol en première classe, majoration de 30%");
+            System.out.println("Vous avez selectionné un vol en première classe");
         } else if (intClass == 2) {
             flag = 2;
-            System.out.println("Vous avez selectionné un vol en classe eco,  vous êtes pauvre");
+            System.out.println("Vous avez selectionné un vol en classe eco");
         } else {
             System.out.println("[ERREUR] choix invalide");
             choiceClass();
@@ -181,7 +177,7 @@ public class UI {
         }
     }
     public void displayChoiceServiceMultiple() {
-        System.out.println(">>> 1 : Sans service - Aucun hotel et voiture");
+        System.out.println(">>> 1 : Sans service ");
         System.out.println(">>> 2 : Avec service simple - 1 hotel et 1 voiture pour 1 seule destination");
         System.out.println(">>> 3 : Avec service deluxe - 1 hotel et 1 voiture pour les 2 destinations");
         System.out.println(">>>> Quel est votre choix ? ");
