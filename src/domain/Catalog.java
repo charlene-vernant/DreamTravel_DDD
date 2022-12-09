@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Random;
+import java.io.File;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -219,8 +220,12 @@ public class Catalog {
     public ArrayList<JSONObject> parseCatalog() {
         JSONParser parser = new JSONParser();
         ArrayList<JSONObject> catalog = new ArrayList<>();
+        String path = "./src/domain/catalog.json";
+        if (!new File(path).isFile()){
+            path = "./domain/catalog.json";
+        }
         try {
-            Reader reader = new FileReader("src/domain/catalog.json");
+            Reader reader = new FileReader(path);
             Object jsonObj = parser.parse(reader);
             JSONObject jsonObject = (JSONObject) jsonObj;
             catalog = (ArrayList<JSONObject>) jsonObject.get("catalog");

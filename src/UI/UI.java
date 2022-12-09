@@ -87,7 +87,7 @@ public class UI {
     public void displayCatalog(City departure, City destination) {
         System.out.println(">>> Voici la liste des vols disponibles");
         catalog.displayResearchTicketCatalog(departure, destination);
-        System.out.println(">>>> Quel est votre choix ? ");
+        System.out.println(">>>> Quel est votre choix ? (choisir parmi les nombres à gauche)");
         int choiceTicket = saisieEntier();
         int classe = choiceClass();
         Ticket ticket = catalog.getCatalogTicket().get(choiceTicket);
@@ -127,7 +127,7 @@ public class UI {
     }
 
     public int choiceClass() {
-        System.out.println(">>> 1 : Première classe (prix du vol majoré à 30%");
+        System.out.println(">>> 1 : Première classe (prix du vol majoré à 30%)");
         System.out.println(">>> 2 : Classe éco");
         int flag = 0;
         int intClass = saisieEntier();
