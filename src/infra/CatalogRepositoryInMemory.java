@@ -2,7 +2,6 @@ package infra;
 import java.util.HashSet;
 import java.util.Set;
 import domain.ID;
-import domain.Travel;
 import domain.Catalog;
 import domain.CatalogRepository;
 

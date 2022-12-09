@@ -28,6 +28,11 @@ class CarModel {
     }
 
     @Override
+    public String toString() {
+        return "Nom de la Voiture : "+carName+", prix : "+carPrice;
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(carName,carPrice);
     }

@@ -1,7 +1,6 @@
 package domain;
 
 import java.time.LocalDate;
-import java.util.Random;
 
 public class Flight {
     // ValueObject
@@ -56,7 +55,7 @@ public class Flight {
     @Override 
     public String toString() {
         String chain = "";
-        chain += "Départ : " + departure + "--Destination : " + destination + "classe : " + classe;
+        chain += "Départ : " + departure + " | Destination : " + destination + " | Classe : " + classe+ " | Prix : "+price+" | Date : " + date;
         return chain;
     }
 }

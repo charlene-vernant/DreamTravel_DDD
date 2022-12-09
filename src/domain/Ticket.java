@@ -1,8 +1,6 @@
 package domain;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
 
@@ -69,7 +67,7 @@ public class Ticket {
     public String toString() {
         String chain = "";
         if (transit != null) {
-            chain = "Départ : " + departure + " -- Transit : " + transit + " --Destination : " + destination +" Tarif : "+price+" Date: "+this.date;
+            chain = "Départ : " + departure + " -- Transit : " + transit + " --Destination : " + destination +" Tarif (pour 1 vol) : "+price+" Date: "+this.date;
         } else
             chain = "Départ : " + departure + " -- Destination : " + destination+" Tarif : "+price+" Date: "+this.date;
 

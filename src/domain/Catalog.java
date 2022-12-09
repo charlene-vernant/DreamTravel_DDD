@@ -221,6 +221,7 @@ public class Catalog {
             Reader reader = new FileReader("src/domain/catalog.json");
             Object jsonObj = parser.parse(reader);
             JSONObject jsonObject = (JSONObject) jsonObj;
+            //Ca met un warning mais je vois pas comment changer
             catalog = (ArrayList<JSONObject>) jsonObject.get("catalog");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -246,6 +247,7 @@ public class Catalog {
         for (int i = 0; i < catalog.size(); i++) {
             JSONObject city = (JSONObject) catalog.get(i);
             if (city.get("departure").toString().equals(departure)) {
+                //Ca met un warning mais je vois pas comment changer
                 ArrayList<String> destinations = (ArrayList<String>) city.get("destination");
 
                 for (int e = 0; e < destinations.size(); e++) {
@@ -263,6 +265,7 @@ public class Catalog {
         for (int i = 0; i < catalog.size(); i++) {
             JSONObject city = (JSONObject) catalog.get(i);
             if (city.get("departure").toString().equals(departure)) {
+                //Ca met un warning mais je vois pas comment changer
                 ArrayList<String> destinations = (ArrayList<String>) city.get("destination");
                 for (int e = 0; e < destinations.size(); e++) {
                     String stopover = destinations.get(e).toString();

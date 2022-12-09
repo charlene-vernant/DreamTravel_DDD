@@ -7,20 +7,18 @@ import infra.TravelRepositoryInMemory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.time.LocalDate;
 
 public class UI {
-    Catalog catalog = new Catalog(); // voir ou le mettre
-    Travel travel; // Voir ou le mettre
-    TravelRepository repository = new TravelRepositoryInMemory(); // voir ou le mettre
+    Catalog catalog = new Catalog(); 
+    Travel travel; 
+    TravelRepository repository = new TravelRepositoryInMemory(); 
     public UI() {
         displayHomeUser();
     }
 
     public void displayTravelByID(TravelRepository travel, String id) {
-        ID newID = new ID(id);
         System.out.println("Votre voyage : ");
-        travel.findTravelById(newID);
+        travel.findTravelById(id);
     }
 
     public void displayHomeUser() {
@@ -38,9 +36,9 @@ public class UI {
                     travel = new Travel(name);
                     displayDestinationDeparture(); // affiche la liste des destination/depart
                     displayCreateTravel(); // va afficher la liste des vols
+                    travel.updatePrice();
                     displayTravel();
                     AddTravelToRepository(repository, travel);
-                    //this.repository.findTravelById(id);
                 }
                     break;
                 case 2: {
@@ -58,7 +56,6 @@ public class UI {
 
     public void AddTravelToRepository(TravelRepository repository, Travel travel) {
         this.repository = repository;
-        travel.toString();
         repository.addTravel(travel);
         
     }
@@ -101,7 +98,7 @@ public class UI {
 
     public float usePoolTicket(float currentPrice){
         if(catalog.poolIsAvailable()){
-            currentPrice *= 1.2;
+            currentPrice = (float)(currentPrice-(0.2*currentPrice));
             catalog.usePoolTicket();
         }
         return currentPrice;
@@ -110,12 +107,11 @@ public class UI {
     public void createFlight(Ticket ticket, int classe) {
         if (ticket.getTransit() != null) {
             System.out.println("vol multiple");
-            float tmpPrice = usePoolTicket(ticket.getPrice());            
+            float tmpPrice = usePoolTicket(ticket.getPrice()); 
+            //On add les flight avec la même date pour les deux pour le moment (sinon c'est pas cohérent avec la date générée 
+            //dans ticket, vu que le transit est aussi généré dedans)           
             travel.addFlight(ticket.getDeparture(), ticket.getTransit(), classe, tmpPrice, ticket.getDate());
             travel.addFlight(ticket.getTransit(), ticket.getDestination(), classe, tmpPrice, ticket.getDate());
-            //travel.updatePrice(tmpPrice); C'était pour test les prix mais ça marche pas
-            //travel.getPrice();
-            //BUG du test (nullpointer)
             choiceServiceMultiple();
             
             
@@ -212,8 +208,7 @@ public class UI {
         int choiceRoom = saisieEntier();
         System.out.println(catalog.getHotelID(choiceHotel));
         System.out.println(catalog.getRoom(choiceHotel, choiceRoom));
-        //travel.addHotel(catalog.getHotelID(1), catalog.getRoom(1, 1));  
-        //BUG nullpointer
+        travel.addHotel(catalog.getHotelID(choiceHotel), catalog.getRoom(choiceHotel, choiceRoom));  
     }
 
     public void displayCarCatalog(){
@@ -223,8 +218,7 @@ public class UI {
         int choiceCar = saisieEntier();
         catalog.displayModelCatalog(choiceCar);
         int choiceModel = saisieEntier();
-        //travel.addRentalCar(catalog.getCarID(choiceCar), catalog.getModel(choiceCar, choiceModel));
-        //BUG nullpointer
+        travel.addRentalCar(catalog.getCarID(choiceCar), catalog.getModel(choiceCar, choiceModel));
     }
 
     public int saisieEntier() {

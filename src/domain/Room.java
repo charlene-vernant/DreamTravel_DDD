@@ -7,7 +7,7 @@ public class Room {
     // ValueObject
     private final String roomName;
     private final float roomPrice;
-    Room(String roomName, float roomPrice){
+    public Room(String roomName, float roomPrice){
         this.roomName=roomName;
         this.roomPrice=roomPrice;
     }
@@ -26,6 +26,11 @@ public class Room {
         && this.getRoomPrice()==(( (Room) obj).getRoomPrice())
         && this.getroomName().equals(((Room) obj).getroomName())) return true;
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Nom de la chambre : "+roomName+" prix: "+roomPrice;
     }
 
     @Override
